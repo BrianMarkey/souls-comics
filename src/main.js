@@ -1,19 +1,18 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// import App from './App.vue'
 import Comic from './Comic.vue'
 Vue.use(VueRouter)
 
 const routes = [
-  { path: '/', component: Comic }
+  { path: '/', component: Comic },
+  { path: '/:id', component: Comic }
 ]
 
 const router = new VueRouter({
   routes
 });
 
-new Vue({
+const app = new Vue({
   el: '#app',
-  render: h => h(Comic),
   router
 })

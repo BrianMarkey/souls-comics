@@ -27,7 +27,7 @@
         <a v-on:click="playCurrentVideo()">PLAY</a>
       </div>
     </div>
-    {{ this.$route.path }}
+    {{ this.$route.params.id }}
   </center>
 </template>
 
