@@ -9,7 +9,8 @@ const routes = [
 ]
 
 const router = new VueRouter({
-  routes
+  routes,
+  mode: 'history'
 });
 
 const app = new Vue({
