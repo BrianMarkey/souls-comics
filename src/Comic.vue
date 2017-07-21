@@ -1,9 +1,6 @@
 <template>
   <center>
     <div id="app">
-      <a v-bind:style="{ visibility: currentPanelIsFirst ? 'hidden' : 'inherit' }"
-        class="slider-control"
-        v-on:click="previousPanel()"><img src="./previous-arrow.png" /></a>
       <div class="panels-container">
         <v-touch v-on:swipeleft="nextPanel" v-on:swiperight="previousPanel">
           <ul ref="panels" v-bind:style="{ marginLeft: panelsLeftOffset + 'px', width: panels.length * panelWidth + 'px'}">
@@ -22,11 +19,12 @@
           </ul>
         </v-touch>
       </div>
-      <a v-bind:style="{ visibility: currentPanelIsLast ? 'hidden' : 'inherit' }"
-        class="slider-control"
-        v-on:click="nextPanel()"><img src="./next-arrow.png" /></a>
-      <div>
-        <a v-on:click="playCurrentVideo()">PLAY</a>
+      <div class="controls">
+        <a v-bind:style="{ visibility: currentPanelIsFirst ? 'hidden' : 'inherit' }"
+           v-on:click="previousPanel()">Previous</a>
+        <a v-on:click="playCurrentVideo()">Play</a>
+        <a v-bind:style="{ visibility: currentPanelIsLast ? 'hidden' : 'inherit' }"
+           v-on:click="nextPanel()" >Next</a>
       </div>
     </div>
     {{ this.$route.params.id }}
