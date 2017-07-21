@@ -75,17 +75,17 @@
         if (!this.currentPanelIsLast) {
           this.currentItemIndex++;
         }
+        this.$nextTick(function () {
+          this.playCurrentVideo();
+        });
       },
       previousPanel: function () {
         if (!this.currentPanelIsFirst) {
           this.currentItemIndex--;
         }
-      },
-      onSwipeLeft: function () {
-        previousPanel();
-      },
-      onSwipeRight: function () {
-        nextPanel();
+        this.$nextTick(function () {
+          this.playCurrentVideo();
+        });
       }
     },
     computed: {
@@ -96,7 +96,6 @@
         return this.currentItemIndex === 0;
       },
       currentPanelIsLast: function () {
-        console.log(this.panels.length);
         return this.currentItemIndex === this.panels.length - 1;
       }
     }
