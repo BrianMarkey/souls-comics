@@ -5,20 +5,22 @@
         class="slider-control"
         v-on:click="previousPanel()"><img src="./previous-arrow.png" /></a>
       <div class="panels-container">
-        <ul ref="panels" v-bind:style="{ marginLeft: panelsLeftOffset + 'px', width: panels.length * panelWidth + 'px'}">
-          <li v-for="panel in panels">
-            <div class="currentListItem">
-              <video v-if="panels"
-                    playsinline="true"
-                    webkit-playsinline=""
-                    poster=""
-                    class="panel-video"
-                    ref="vids">
-                    <source id="webmSource" v-bind:src="panel" type="video/webm">
-              </video>
-            </div>
-          </li>
-        </ul>
+        <v-touch v-on:swipeleft="nextPanel" v-on:swiperight="previousPanel">
+          <ul ref="panels" v-bind:style="{ marginLeft: panelsLeftOffset + 'px', width: panels.length * panelWidth + 'px'}">
+            <li v-for="panel in panels">
+              <div class="currentListItem">
+                <video v-if="panels"
+                      playsinline="true"
+                      webkit-playsinline=""
+                      poster=""
+                      class="panel-video"
+                      ref="vids">
+                      <source id="webmSource" v-bind:src="panel" type="video/webm">
+                </video>
+              </div>
+            </li>
+          </ul>
+        </v-touch>
       </div>
       <a v-bind:style="{ visibility: currentPanelIsLast ? 'hidden' : 'inherit' }"
         class="slider-control"
@@ -78,6 +80,12 @@
         if (!this.currentPanelIsFirst) {
           this.currentItemIndex--;
         }
+      },
+      onSwipeLeft: function () {
+        previousPanel();
+      },
+      onSwipeRight: function () {
+        nextPanel();
       }
     },
     computed: {

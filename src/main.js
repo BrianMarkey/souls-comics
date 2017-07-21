@@ -1,7 +1,11 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Comic from './Comic.vue'
-Vue.use(VueRouter)
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import Comic from './Comic.vue';
+
+var VueTouch = require('vue-touch');
+
+Vue.use(VueRouter);
+Vue.use(VueTouch, { name: 'v-touch' });
 
 const routes = [
   { path: '/', component: Comic },
