@@ -2,10 +2,10 @@
   <center>
     <div id="app">
       <div class="panels-container">
-        <v-touch v-on:swipeleft="nextPanel" v-on:swiperight="previousPanel">
           <ul ref="panels" v-bind:style="{ marginLeft: panelsLeftOffset + 'px', width: panels.length * panelWidth + 'px'}">
             <li v-for="panel in panels">
               <div class="currentListItem">
+        <v-touch v-on:swipeleft="nextPanel" v-on:swiperight="previousPanel">
                 <video v-if="panels"
                       playsinline="true"
                       webkit-playsinline=""
@@ -14,10 +14,10 @@
                       ref="vids">
                       <source id="webmSource" v-bind:src="panel" type="video/webm">
                 </video>
+        </v-touch>
               </div>
             </li>
           </ul>
-        </v-touch>
       </div>
       <div class="controls">
         <a v-bind:style="{ visibility: currentPanelIsFirst ? 'hidden' : 'inherit' }"
@@ -26,6 +26,7 @@
         <a v-bind:style="{ visibility: currentPanelIsLast ? 'hidden' : 'inherit' }"
            v-on:click="nextPanel()" >Next</a>
       </div>
+      <a v-on:click="requestFullScreen"><h1>REQUEST FULL SCREEN</h1></a>
     </div>
     {{ this.$route.params.id }}
   </center>
@@ -84,6 +85,14 @@
         this.$nextTick(function () {
           this.playCurrentVideo();
         });
+      },
+      requestFullScreen: function () {
+        var firstVid = document.querySelector('video');
+        console.log(firstVid.requestFullscreen);
+        console.log(firstVid.msRequestFullscreen);
+        console.log(firstVid.mozRequestFullScreen);
+        console.log(firstVid.webkitRequestFullscreen);
+        firstVid.webkitRequestFullscreen();
       }
     },
     computed: {
@@ -127,5 +136,8 @@
   }
   body {
     background-color: #545556;
+  }
+  ::-webkit-media-controls {
+    display:none !important;
   }
 </style>
