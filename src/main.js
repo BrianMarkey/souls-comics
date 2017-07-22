@@ -2,6 +2,8 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Comic from './Comic.vue';
 
+require.context("../static/", true);
+
 var VueTouch = require('vue-touch');
 
 Vue.use(VueRouter);
