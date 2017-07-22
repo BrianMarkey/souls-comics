@@ -1,5 +1,6 @@
 <template>
   <center>
+    <h1>SOULS COMICS</h1>
     <div id="app">
       <div class="panels-container">
           <ul ref="panels" v-bind:style="{ marginLeft: panelsLeftOffset + 'px', width: panels.length * panelWidth + 'px'}">
@@ -135,9 +136,23 @@
     display: inline-block;
   }
   body {
-    background-color: #545556;
+    background: ##f2efcf;
+    background-image: url("bg1.png"), url("bg2.png");
+    background-repeat: repeat-x, repeat;
+  }
+  h1 {
+    font-size: 80px;
+    color: #686666;
+    text-shadow: 3px 3px #000000;
   }
   ::-webkit-media-controls {
     display:none !important;
+  }
+  @font-face {
+    font-family: "dks";
+    src: url(OptimusPrincepsSemiBold.ttf) format("truetype");
+  }
+  h1 {
+    font-family: "dks";
   }
 </style>
