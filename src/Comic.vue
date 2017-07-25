@@ -110,7 +110,7 @@
   };
 </script>
 
-<style>
+<style lang="less">
   a {
     cursor: pointer;
   }
@@ -130,10 +130,10 @@
     padding: 0px;
     margin: 0px;
     text-align: left;
-  }
-  li {
-    list-style: none;
-    display: inline-block;
+    li {
+      list-style: none;
+      display: inline-block;
+    }
   }
   body {
     background: ##f2efcf;
@@ -144,6 +144,7 @@
     font-size: 80px;
     color: #686666;
     text-shadow: 3px 3px #000000;
+    font-family: "dks";
   }
   ::-webkit-media-controls {
     display:none !important;
@@ -151,8 +152,5 @@
   @font-face {
     font-family: "dks";
     src: url(OptimusPrincepsSemiBold.ttf) format("truetype");
-  }
-  h1 {
-    font-family: "dks";
   }
 </style>
