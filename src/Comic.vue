@@ -6,7 +6,6 @@
           <ul ref="panels" v-bind:style="{ marginLeft: panelsLeftOffset + 'px', width: panels.length * panelWidth + 'px'}">
             <li v-for="panel in panels">
               <div class="currentListItem">
-        <v-touch v-on:swipeleft="nextPanel" v-on:swiperight="previousPanel">
                 <video v-if="panels"
                       playsinline="true"
                       webkit-playsinline=""
@@ -15,7 +14,6 @@
                       ref="vids">
                       <source id="webmSource" v-bind:src="panel" type="video/webm">
                 </video>
-        </v-touch>
               </div>
             </li>
           </ul>
@@ -29,7 +27,7 @@
       </div>
       <a v-on:click="requestFullScreen"><h1>REQUEST FULL SCREEN</h1></a>
     </div>
-    {{ this.$route.params.id }}
+    {{ stripIndex }}
   </center>
 </template>
 
@@ -37,10 +35,13 @@
 <script>
   export default {
     name: 'comic',
+    props: ['strips', 'stripIndex'],
     data: function () {
       return {
         // The index of the current list item in the
         // current area's list of items.
+        currentStripIndex: 0,
+        currentPanelIndex: 0,
         currentItemIndex: 0,
         allPanels: [
           'https://giant.gfycat.com/FlimsySpottedAmericancrocodile.webm',
@@ -78,6 +79,17 @@
         this.$nextTick(function () {
           this.playCurrentVideo();
         });
+      },
+      getPanel: function (stripIndex, panelIndex) {
+        var strip = strips[stripIndex];
+        if (!strip) {
+          return null;
+        }
+        var panel = strip[panelIndex];
+        if (!panel) {
+          return null;
+        }
+        return panel;
       },
       previousPanel: function () {
         if (!this.currentPanelIsFirst) {

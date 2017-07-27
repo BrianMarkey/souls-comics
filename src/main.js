@@ -1,17 +1,24 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Comic from './Comic.vue';
+import data from 'static/strip-data.json';
 
-require.context("../static/", true);
+require.context("static/", true);
 
-var VueTouch = require('vue-touch');
+const VueTouch = require('vue-touch');
 
 Vue.use(VueRouter);
 Vue.use(VueTouch, { name: 'v-touch' });
 
 const routes = [
-  { path: '/', component: Comic },
-  { path: '/:id', component: Comic }
+  {
+    path: '/:stripIndex',
+    component: Comic,
+    props: (route) => ({
+                        strips: data.strips,
+                        stripIndex: route.params.stripIndex
+                      })
+  }
 ]
 
 const router = new VueRouter({
