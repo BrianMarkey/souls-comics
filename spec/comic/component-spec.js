@@ -6,29 +6,30 @@ function getComponentWithData (propsData) {
   return new constructor({ propsData: propsData }).$mount();
 }
 
-describe("comic-component", function() {
+const data = 
+{
+  "strips": [
+    {
+      "name": "Test strip one.",
+      "panels": [
+        {
+          "type": "video",
+          "source": "https://giant.gfycat.com/FlimsySpottedAmericancrocodile.webm"
+        },
+        {
+          "type": "video",
+          "source": "https://zippy.gfycat.com/CavernousNiceChamois.webm"
+        },
+        {
+          "type": "video",
+          "source": "https://giant.gfycat.com/PopularPaltryAidi.webm"
+        }
+      ]
+    }
+  ]
+};
 
-  const data = 
-  {
-    "strips": [
-      {
-        "panels": [
-          {
-            "type": "video",
-            "source": "https://giant.gfycat.com/FlimsySpottedAmericancrocodile.webm"
-          },
-          {
-            "type": "video",
-            "source": "https://zippy.gfycat.com/CavernousNiceChamois.webm"
-          },
-          {
-            "type": "video",
-            "source": "https://giant.gfycat.com/PopularPaltryAidi.webm"
-          }
-        ]
-      }
-    ]
-  };
+describe("comic component", function() {
 
   it("exists", function() {
     expect(Comic).toBeDefined();
@@ -42,7 +43,7 @@ describe("comic-component", function() {
     expect(typeof Comic.data).toBe('function');
   });
 
-  it("has can execute the data function", function() {
+  it("can execute the data function", function() {
     var data = Comic.data();
     expect(data).toBeDefined();
   });
@@ -51,15 +52,39 @@ describe("comic-component", function() {
     var component = getComponentWithData(data);
     expect(typeof component.playCurrentVideo).toBe('function');
   });
+});
 
-  it("strips", function() {
+
+describe("comic.getPanel()", function() {
+  it("returns the correct panel", function() {
     var component = getComponentWithData(data);
-    var source = component.strips[0].panels[0].source;
+    var source = component.getPanel(0,0).source;
     expect(source).toBe("https://giant.gfycat.com/FlimsySpottedAmericancrocodile.webm");
   });
-
-  it("has a currentStripIndex property defined in the data object", function() {
-    var data = Comic.data();
-    expect(data.currentStripIndex).toBeDefined();
+  
+  it("returns null if the strip doesn't exist", function() {
+    var component = getComponentWithData(data);
+    var panel = component.getPanel(data.strips.length, 0);
+    expect(panel).toBe(null);
+  });
+  
+  it("returns null if the panel doesn't exist", function() {
+    var stripIndex = 0;
+    var nonExistentPanelIndex = data.strips[stripIndex].panels.length;
+    var component = getComponentWithData(data);
+    var panel = component.getPanel(stripIndex, nonExistentPanelIndex);
+    expect(panel).toBe(null);
+  });
+  
+  it("returns null if only one parameter is passed", function() {
+    var component = getComponentWithData(data);
+    var panel = component.getPanel(0);
+    expect(panel).toBe(null);
+  });
+  
+  it("returns null if no parameters are passed", function() {
+    var component = getComponentWithData(data);
+    var panel = component.getPanel();
+    expect(panel).toBe(null);
   });
 });

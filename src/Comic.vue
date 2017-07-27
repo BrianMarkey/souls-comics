@@ -80,12 +80,19 @@
           this.playCurrentVideo();
         });
       },
+      /// Get the panel based on the zero-based strip index
+      /// and zero-based panel index provided
+      /// Returns 'null' if no panel is found for the given indexes 
       getPanel: function (stripIndex, panelIndex) {
-        var strip = strips[stripIndex];
-        if (!strip) {
+        if (typeof stripIndex === 'undefined' ||
+            typeof panelIndex === 'undefined' ) {
           return null;
         }
-        var panel = strip[panelIndex];
+        var strip = this.strips[stripIndex];
+        if (!strip || !strip.panels) {
+          return null;
+        }
+        var panel = strip.panels[panelIndex];
         if (!panel) {
           return null;
         }

@@ -1,6 +1,7 @@
 {
   "strips": [
     {
+      "name": "Test strip one.",
       "panels": [
         {
           "type": "video",
