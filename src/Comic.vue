@@ -12,7 +12,7 @@
                       poster=""
                       class="panel-video"
                       ref="vids">
-                      <source id="webmSource" v-bind:src="panel" type="video/webm">
+                      <source id="webmSource" v-bind:src="panel.source" type="video/webm">
                 </video>
               </div>
             </li>
@@ -43,34 +43,48 @@
         currentStripIndex: 0,
         currentPanelIndex: 0,
         currentItemIndex: 0,
-        allPanels: [
-          'https://giant.gfycat.com/FlimsySpottedAmericancrocodile.webm',
-          'https://zippy.gfycat.com/CavernousNiceChamois.webm',
-          'https://giant.gfycat.com/PopularPaltryAidi.webm'
-        ],
         panels: [],
         panelWidth: 720,
-        panelBufferSize: 1
+        panelBufferSize: 1,
+        panelsMap: []
       };
     },
     beforeMount: function () {
+      this.panelsMap = this.createPanelsMap();
+
       // Load panels up to the buffer size.
-      this.panels = this.allPanels.slice(0, this.panelBufferSize + 1);
+      for (var i = 0; i < this.panelBufferSize + 1; i++) {
+        const panelMap = this.panelsMap[i];
+        const panel = this.strips[panelMap[0]].panels[panelMap[1]];
+        this.panels.push(panel);
+      }
     },
     mounted: function () {
 
     },
     methods: {
+      /// Create an array which maps panels to their strip
+      createPanelsMap: function () {
+        var result = [];
+        for (var i = 0; i < this.strips.length; i++) {
+          var strip = this.strips[i];
+          for (var j = 0; j < strip.panels.length; j++) {
+            result.push([i,j]);
+          }
+        }
+        return result;
+      },
       playCurrentVideo: function () {
         this.$refs.vids[this.currentItemIndex].play();
       },
       nextPanel: function () {
         // Should we load another panel?
         var anotherPanelIsNeedeed = this.currentItemIndex === this.panels.length - 1 - this.panelBufferSize;
-        var thereArePanelsToLoad = this.panels.length < this.allPanels.length;
-        if (anotherPanelIsNeedeed &&
-            thereArePanelsToLoad) {
-          var panelToLoad = this.allPanels.slice(this.panels.length, this.panels.length + 1)[0];
+        if (anotherPanelIsNeedeed) {
+          var nextPanel = this.getPanel();
+          if (nextPanel != null) {
+            this.panels.push(nextPanel);
+          }
           this.panels.push(panelToLoad);
         }
         if (!this.currentPanelIsLast) {
