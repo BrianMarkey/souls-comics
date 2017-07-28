@@ -12,11 +12,11 @@ Vue.use(VueTouch, { name: 'v-touch' });
 
 const routes = [
   {
-    path: '/:stripIndex',
+    path: '/:stripNumber',
     component: Comic,
     props: (route) => ({
                         strips: data.strips,
-                        stripIndex: route.params.stripIndex
+                        stripNumber: route.params.stripNumber
                       })
   }
 ]

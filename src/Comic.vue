@@ -92,6 +92,9 @@
       },
       /// Add the given panels to the global
       /// collection of panels, which will update the DOM
+      /// We pass in the parent object of the panels
+      /// array to make it more testable. The component
+      /// will pass the instance of itself when it uses this method.
       addPanelsToCollection: function (panelsToAdd,
                                        panelsParentObject,
                                        panelsMap) {
