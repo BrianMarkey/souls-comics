@@ -30,7 +30,6 @@
   </center>
 </template>
 
-
 <script>
   export default {
     name: 'comic',
@@ -56,11 +55,20 @@
     methods: {
       setCurrentStrip: function (stripIndex) {
         var startStrip = this.strips[stripIndex];
+
+        var panelsToLoad = this.getPanelsToLoad(startStrip.startPanelIndex,
+                                                this.panelsMap,
+                                                this.strips,
+                                                this.panelBufferSize);
+
+        this.addPanelsToCollection(panelsToLoad,
+                                   this,
+                                   this.panelsMap);
       },
       /// Get the panels which should be loaded
       /// for a panel of a given index, including
       /// the panel with the matching index, and
-      /// the buffering panels
+      /// the buffering panelsnpmnop
       /// todo: possibly add parameter validation.
       getPanelsToLoad: function (panelIndex,
                                  panelsMap,
@@ -75,7 +83,6 @@
           if (!panelMap.hasBeenLoaded) {
             // Get the actual panel from the strip
             // and panel indexes in the panel map object
-            
             const panelToLoad = stripsData[panelMap.stripIndex].panels[panelMap.panelIndex];
             panelsToLoad.push(panelToLoad);
           }
@@ -83,12 +90,13 @@
 
         return panelsToLoad;
       },
-      /// 
-      addPanelsToCollection: function (panelsToAdd, 
-                                       panelCollection,
+      /// Add the given panels to the global
+      /// collection of panels, which will update the DOM
+      addPanelsToCollection: function (panelsToAdd,
+                                       panelsParentObject,
                                        panelsMap) {
         // Concat the panels to add to create a new array
-        var newPanels = this.panels.concat(panelsToAdd);
+        var newPanels = panelsParentObject.panels.concat(panelsToAdd);
         // Sort the new array by the global panel index
         newPanels.sort(function (a, b) {
           if (a.panelSort < b.panelSort) {
@@ -101,7 +109,7 @@
         });
         // Overwrite the array of loaded panels with the
         // new, sorted array.
-        panelCollection = newPanels;
+        panelsParentObject.panels = newPanels;
         // Update the panels map to mark the newly
         // loaded panels as loaded.
         panelsToAdd.forEach(function (panelToUpdate) {
