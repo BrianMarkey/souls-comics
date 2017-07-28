@@ -6,6 +6,64 @@ function getComponentWithData (propsData) {
   return new constructor({ propsData: propsData }).$mount();
 }
 
+var dataFactory = {
+  createData: function () {
+    var stripsData =  [
+      {
+        "name": "Test strip one.",
+        "panels": [
+          {
+            "type": "video",
+            "source": "strip1-panel1"
+          },
+          {
+            "type": "video",
+            "source": "strip1-panel2"
+          },
+          {
+            "type": "video",
+            "source": "strip1-panel3"
+          }
+        ]
+      },
+      {
+        "name": "Test strip two.",
+        "panels": [
+          {
+            "type": "video",
+            "source": "strip2-panel1"
+          },
+          {
+            "type": "video",
+            "source": "strip2-panel2"
+          },
+          {
+            "type": "video",
+            "source": "strip2-panel3"
+          }
+        ]
+      }
+    ];
+    var getPanelsToLoadPanelsMap = [];
+
+    var panelLoopIndex = 0;
+    for (var i = 0; i < stripsData.length; i++) {
+      var strip = stripsData[i];
+      strip.startPanelIndex = panelLoopIndex;
+      for (var j = 0; j < strip.panels.length; j++) {
+        getPanelsToLoadPanelsMap.push({stripIndex: i, panelIndex: j});
+        strip.panels[j].panelSort = panelLoopIndex;
+        panelLoopIndex++;
+      }
+    }
+
+    return {
+      stripsData: stripsData,
+      mapData: getPanelsToLoadPanelsMap
+    };
+  }
+}
+
 const data = 
 {
   "strips": [
@@ -90,64 +148,6 @@ describe("comic.getPanel()", function() {
 
 describe("comic.getPanelsToLoad()", function() {
   var data = null;
-
-  var dataFactory = {
-    createData: function () {
-      var stripsData =  [
-        {
-          "name": "Test strip one.",
-          "panels": [
-            {
-              "type": "video",
-              "source": "strip1-panel1"
-            },
-            {
-              "type": "video",
-              "source": "strip1-panel2"
-            },
-            {
-              "type": "video",
-              "source": "strip1-panel3"
-            }
-          ]
-        },
-        {
-          "name": "Test strip two.",
-          "panels": [
-            {
-              "type": "video",
-              "source": "strip2-panel1"
-            },
-            {
-              "type": "video",
-              "source": "strip2-panel2"
-            },
-            {
-              "type": "video",
-              "source": "strip2-panel3"
-            }
-          ]
-        }
-      ];
-      var getPanelsToLoadPanelsMap = [];
-
-      var panelLoopIndex = 0;
-      for (var i = 0; i < stripsData.length; i++) {
-        var strip = stripsData[i];
-        strip.startPanelIndex = panelLoopIndex;
-        for (var j = 0; j < strip.panels.length; j++) {
-          getPanelsToLoadPanelsMap.push({stripIndex: i, panelIndex: j});
-          strip.panels[j].panelSort = panelLoopIndex;
-          panelLoopIndex++;
-        }
-      }
-
-      return {
-        stripsData: stripsData,
-        mapData: getPanelsToLoadPanelsMap
-      };
-    }
-  }
 
   beforeEach(function() {
     data = dataFactory.createData();
