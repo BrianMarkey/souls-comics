@@ -83,6 +83,7 @@
 
         return panelsToLoad;
       },
+      /// 
       addPanelsToCollection: function (panelsToAdd, 
                                        panelCollection,
                                        panelsMap) {

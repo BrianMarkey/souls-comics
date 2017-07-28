@@ -89,96 +89,133 @@ describe("comic.getPanel()", function() {
 });
 
 describe("comic.getPanelsToLoad()", function() {
-  const getPanelsToLoadData = 
-  {
-    "strips": [
-      {
-        "name": "Test strip one.",
-        "panels": [
-          {
-            "type": "video",
-            "source": "strip1-panel1"
-          },
-          {
-            "type": "video",
-            "source": "strip1-panel2"
-          },
-          {
-            "type": "video",
-            "source": "strip1-panel3"
-          }
-        ]
-      },
-      {
-        "name": "Test strip two.",
-        "panels": [
-          {
-            "type": "video",
-            "source": "strip2-panel1"
-          },
-          {
-            "type": "video",
-            "source": "strip2-panel2"
-          },
-          {
-            "type": "video",
-            "source": "strip2-pane31"
-          }
-        ]
+  var data = null;
+
+  var dataFactory = {
+    createData: function () {
+      var stripsData =  [
+        {
+          "name": "Test strip one.",
+          "panels": [
+            {
+              "type": "video",
+              "source": "strip1-panel1"
+            },
+            {
+              "type": "video",
+              "source": "strip1-panel2"
+            },
+            {
+              "type": "video",
+              "source": "strip1-panel3"
+            }
+          ]
+        },
+        {
+          "name": "Test strip two.",
+          "panels": [
+            {
+              "type": "video",
+              "source": "strip2-panel1"
+            },
+            {
+              "type": "video",
+              "source": "strip2-panel2"
+            },
+            {
+              "type": "video",
+              "source": "strip2-panel3"
+            }
+          ]
+        }
+      ];
+      var getPanelsToLoadPanelsMap = [];
+
+      var panelLoopIndex = 0;
+      for (var i = 0; i < stripsData.length; i++) {
+        var strip = stripsData[i];
+        strip.startPanelIndex = panelLoopIndex;
+        for (var j = 0; j < strip.panels.length; j++) {
+          getPanelsToLoadPanelsMap.push({stripIndex: i, panelIndex: j});
+          strip.panels[j].panelSort = panelLoopIndex;
+          panelLoopIndex++;
+        }
       }
-    ]
-  };
 
-  const getPanelsToLoadPanelsMap = [];
-
-  var panelLoopIndex = 0;
-  for (var i = 0; i < getPanelsToLoadData.strips.length; i++) {
-    var strip = getPanelsToLoadData.strips[i];
-    strip.startPanelIndex = panelLoopIndex;
-    for (var j = 0; j < strip.panels.length; j++) {
-      getPanelsToLoadPanelsMap.push({stripIndex: i, panelIndex: j});
-      strip.panels[j].panelSort = panelLoopIndex;
-      panelLoopIndex++;
+      return {
+        stripsData: stripsData,
+        mapData: getPanelsToLoadPanelsMap
+      };
     }
   }
+
+  beforeEach(function() {
+    data = dataFactory.createData();
+  });
+
+  // // ...    
+  // // ||||||
+  it("returns the appropriate 3 panels when the buffer size is 1", function() {
+    var component = getComponentWithData({strips: data.stripsData, stripNumber: 1});
+    var loadedPanels = component.getPanelsToLoad(1, data.mapData, data.stripsData, 1);
+    expect(loadedPanels.length).toBe(3);
+    expect(loadedPanels[0].source).toBe(data.stripsData[0].panels[0].source);
+    expect(loadedPanels[1].source).toBe(data.stripsData[0].panels[1].source);
+    expect(loadedPanels[2].source).toBe(data.stripsData[0].panels[2].source);
+  });
 
   // ...    
   // ||||||
   it("returns the appropriate 3 panels when the buffer size is 1", function() {
-    var component = getComponentWithData(getPanelsToLoadData);
-    var loadedPanels = component.getPanelsToLoad(1, getPanelsToLoadPanelsMap, getPanelsToLoadData.strips, 1);
+    var component = getComponentWithData({strips: data.stripsData, stripNumber: 1});
+    var loadedPanels = component.getPanelsToLoad(1, data.mapData, data.stripsData, 1);
     expect(loadedPanels.length).toBe(3);
-    expect(loadedPanels[0].source).toBe(getPanelsToLoadData.strips[0].panels[0].source);
-    expect(loadedPanels[1].source).toBe(getPanelsToLoadData.strips[0].panels[1].source);
-    expect(loadedPanels[2].source).toBe(getPanelsToLoadData.strips[0].panels[2].source);
+    expect(loadedPanels[0].source).toBe(data.stripsData[0].panels[0].source);
+    expect(loadedPanels[1].source).toBe(data.stripsData[0].panels[1].source);
+    expect(loadedPanels[2].source).toBe(data.stripsData[0].panels[2].source);
   });
   
   // ..    
   // ||||||
   it("returns the appropriate 2 panels when the buffer size is 1 and the loaded panel is the first one", function() {
-    var component = getComponentWithData(getPanelsToLoadData);
-    var loadedPanels = component.getPanelsToLoad(0, getPanelsToLoadPanelsMap, getPanelsToLoadData.strips, 1);
+    var component = getComponentWithData({strips: data.stripsData, stripNumber: 1});
+    var loadedPanels = component.getPanelsToLoad(0, data.mapData, data.stripsData, 1);
     expect(loadedPanels.length).toBe(2);
-    expect(loadedPanels[0].source).toBe(getPanelsToLoadData.strips[0].panels[0].source);
-    expect(loadedPanels[1].source).toBe(getPanelsToLoadData.strips[0].panels[1].source);
+    expect(loadedPanels[0].source).toBe(data.stripsData[0].panels[0].source);
+    expect(loadedPanels[1].source).toBe(data.stripsData[0].panels[1].source);
   });
 
   //     ..
   // ||||||
   it("returns the appropriate 2 panels when the buffer size is 1 and the loaded panel is the last one", function() {
-    var component = getComponentWithData(getPanelsToLoadData);
-    var loadedPanels = component.getPanelsToLoad(5, getPanelsToLoadPanelsMap, getPanelsToLoadData.strips, 1);
+    var component = getComponentWithData({strips: data.stripsData, stripNumber: 1});
+    var loadedPanels = component.getPanelsToLoad(5, data.mapData, data.stripsData, 1);
     expect(loadedPanels.length).toBe(2);
-    expect(loadedPanels[0].source).toBe(getPanelsToLoadData.strips[1].panels[1].source);
-    expect(loadedPanels[1].source).toBe(getPanelsToLoadData.strips[1].panels[2].source);
+    expect(loadedPanels[0].source).toBe(data.stripsData[1].panels[1].source);
+    expect(loadedPanels[1].source).toBe(data.stripsData[1].panels[2].source);
   });
 
   //    .
   // ||||||
   it("returns just the specified panel when the buffer size is 0", function() {
-    var component = getComponentWithData(getPanelsToLoadData);
-    var loadedPanels = component.getPanelsToLoad(3, getPanelsToLoadPanelsMap, getPanelsToLoadData.strips, 0);
+    var component = getComponentWithData({strips: data.stripsData, stripNumber: 1});
+    var loadedPanels = component.getPanelsToLoad(3, data.mapData, data.stripsData, 0);
     expect(loadedPanels.length).toBe(1);
-    expect(loadedPanels[0].source).toBe(getPanelsToLoadData.strips[1].panels[0].source);
+    expect(loadedPanels[0].source).toBe(data.stripsData[1].panels[0].source);
+  });
+
+  //  .
+  // ||||||
+  it("doesn't return panels which have already been loaded", function() {
+    var component = getComponentWithData({strips: data.stripsData, stripNumber: 1});
+    var panelIndexToLoad = 1;
+    data.mapData.forEach(function(panel, index) {
+      if (index != panelIndexToLoad) {
+        panel.hasBeenLoaded = true;
+      }
+    });
+    var loadedPanels = component.getPanelsToLoad(1, data.mapData, data.stripsData, 1);
+    expect(loadedPanels.length).toBe(1);
+    expect(loadedPanels[0].source).toBe(data.stripsData[0].panels[panelIndexToLoad].source);
   });
 });
