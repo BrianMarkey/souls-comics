@@ -22,7 +22,7 @@
         <a v-bind:style="{ visibility: currentPanelIsFirst ? 'hidden' : 'inherit' }"
            v-on:click="previousPanel()">Previous</a>
         <a v-on:click="playCurrentVideo()">Play</a>
-        <router-link v-bind:to="nextStripNumber.toString()">Next</router-link>
+        <!--<router-link v-bind:to="nextStripNumber.toString()">Next</router-link>-->
       </div>
       <a v-on:click="requestFullScreen"><h1>REQUEST FULL SCREEN</h1></a>
     </div>
@@ -32,7 +32,7 @@
 <script>
   export default {
     name: 'comic',
-    props: ['strips', 'stripNumber'],
+    props: ['strips', 'stripUrlName'],
     data: function () {
       return {
         // The index of the current list item in the
@@ -43,22 +43,31 @@
         panels: [],
         panelWidth: 720,
         panelBufferSize: 1,
-        panelsMap: []
+        panelsMap: [],
+        stripsUrlNameMap: { }
       };
     },
     beforeMount: function () {
-      this.panelsMap = this.createPanelsMap();
-
-      this.setCurrentStrip(this.stripIndex);
+      const maps = this.createMaps();
+      this.panelsMap = maps.panelsMap;
+      this.stripsUrlNameMap = maps.urlNamesMap;
+      const stripIndex = this.getStripIndexFromUrlName(this.stripUrlName);
+      this.setCurrentStrip(stripIndex);
     },
     methods: {
+      getStripIndexFromUrlName: function(stripUrlName) {
+        const stripIndex = this.stripsUrlNameMap[stripUrlName];
+        if (typeof stripIndex === 'undefined') {
+          return 0;
+        }
+        return stripIndex;
+      },
       setCurrentStrip: function (stripIndex) {
         var startStrip = this.strips[stripIndex];
         var panelsToLoad = this.getPanelsToLoad(startStrip.startPanelIndex,
                                                 this.panelsMap,
                                                 this.strips,
                                                 this.panelBufferSize);
-
         this.addPanelsToCollection(panelsToLoad,
                                    this,
                                    this.panelsMap);
@@ -66,7 +75,7 @@
       /// Get the panels which should be loaded
       /// for a panel of a given index, including
       /// the panel with the matching index, and
-      /// the buffering panelsnpmnop
+      /// the buffering panels.
       /// todo: possibly add parameter validation.
       getPanelsToLoad: function(panelIndex,
                                 panelsMap,
@@ -118,19 +127,21 @@
         });
       },
       /// Create an array which maps panels to their strip
-      createPanelsMap: function () {
-        var result = [];
+      createMaps: function () {
+        const panelsMap = [];
+        const urlNamesMap = {};
         var panelLoopIndex = 0;
         for (var i = 0; i < this.strips.length; i++) {
-          var strip = this.strips[i];
+          const strip = this.strips[i];
+          urlNamesMap[strip.urlName] = i;
           strip.startPanelIndex = panelLoopIndex;
           for (var j = 0; j < strip.panels.length; j++) {
-            result.push({stripIndex: i, panelIndex: j});
+            panelsMap.push({stripIndex: i, panelIndex: j});
             strip.panels[j].panelSort = panelLoopIndex;
             panelLoopIndex++;
           }
         }
-        return result;
+        return { panelsMap, urlNamesMap };
       },
       playCurrentVideo: function () {
         this.$refs.vids[this.currentItemIndex].play();
@@ -210,7 +221,7 @@
         }
         return this.stripNumber - 1;
       },
-      nextStripNumber: function () {
+      nextPanelPath: function () {
         return Math.min(this.panelsMap.length, this.stripIndex + 2);
       }
     }
