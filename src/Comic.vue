@@ -27,7 +27,6 @@
       </div>
       <a v-on:click="requestFullScreen"><h1>REQUEST FULL SCREEN</h1></a>
     </div>
-    {{ stripIndex }}
   </center>
 </template>
 
@@ -35,7 +34,7 @@
 <script>
   export default {
     name: 'comic',
-    props: ['strips', 'stripIndex'],
+    props: ['strips', 'stripNumber'],
     data: function () {
       return {
         // The index of the current list item in the
@@ -52,24 +51,73 @@
     beforeMount: function () {
       this.panelsMap = this.createPanelsMap();
 
-      // Load panels up to the buffer size.
-      for (var i = 0; i < this.panelBufferSize + 1; i++) {
-        const panelMap = this.panelsMap[i];
-        const panel = this.strips[panelMap[0]].panels[panelMap[1]];
-        this.panels.push(panel);
-      }
-    },
-    mounted: function () {
-
+      this.setCurrentStrip(this.stripIndex);
     },
     methods: {
+      setCurrentStrip: function (stripIndex) {
+        var startStrip = this.strips[stripIndex];
+      },
+      /// Get the panels which should be loaded
+      /// for a panel of a given index, including
+      /// the panel with the matching index, and
+      /// the buffering panels
+      /// todo: possibly add parameter validation.
+      getPanelsToLoad: function (panelIndex,
+                                 panelsMap,
+                                 stripsData,
+                                 bufferSize) {
+        var panelsToLoad = [];
+        const panelsToLoadStartIndex = Math.max(0, panelIndex - bufferSize);
+        const panelsToLoadEndIndex = Math.min(panelsMap.length - 1, panelIndex + bufferSize);
+
+        for (var i = panelsToLoadStartIndex; i <= panelsToLoadEndIndex; i++) {
+          var panelMap = panelsMap[i];
+          if (!panelMap.hasBeenLoaded) {
+            // Get the actual panel from the strip
+            // and panel indexes in the panel map object
+            
+            const panelToLoad = stripsData[panelMap.stripIndex].panels[panelMap.panelIndex];
+            panelsToLoad.push(panelToLoad);
+          }
+        }
+
+        return panelsToLoad;
+      },
+      addPanelsToCollection: function (panelsToAdd, 
+                                       panelCollection,
+                                       panelsMap) {
+        // Concat the panels to add to create a new array
+        var newPanels = this.panels.concat(panelsToAdd);
+        // Sort the new array by the global panel index
+        newPanels.sort(function (a, b) {
+          if (a.panelSort < b.panelSort) {
+            return -1;
+          }
+          if (a.panelSort > b.panelSort) {
+            return 1;
+          }
+          return 0;
+        });
+        // Overwrite the array of loaded panels with the
+        // new, sorted array.
+        panelCollection = newPanels;
+        // Update the panels map to mark the newly
+        // loaded panels as loaded.
+        panelsToAdd.forEach(function (panelToUpdate) {
+          panelsMap[panelToUpdate.panelSort].hasBeenLoaded = true;
+        });
+      },
       /// Create an array which maps panels to their strip
       createPanelsMap: function () {
         var result = [];
+        var panelLoopIndex = 0;
         for (var i = 0; i < this.strips.length; i++) {
           var strip = this.strips[i];
+          strip.startPanelIndex = panelLoopIndex;
           for (var j = 0; j < strip.panels.length; j++) {
-            result.push([i,j]);
+            result.push({stripIndex: i, panelIndex: j});
+            strip.panels[j].panelSort = panelLoopIndex;
+            panelLoopIndex++;
           }
         }
         return result;
@@ -127,6 +175,13 @@
         console.log(firstVid.mozRequestFullScreen);
         console.log(firstVid.webkitRequestFullscreen);
         firstVid.webkitRequestFullscreen();
+      },
+      isInt: function(value) {
+        if (isNaN(value)) {
+          return false;
+        }
+        var x = parseFloat(value);
+        return (x | 0) === x;
       }
     },
     computed: {
@@ -138,6 +193,12 @@
       },
       currentPanelIsLast: function () {
         return this.currentItemIndex === this.panels.length - 1;
+      },
+      stripIndex: function () {
+        if (!this.isInt(this.stripNumber)) {
+          return 0;
+        }
+        return this.stripNumber - 1;
       }
     }
   };
