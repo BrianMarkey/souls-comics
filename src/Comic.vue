@@ -22,11 +22,11 @@
         <a v-bind:style="{ visibility: currentPanelIsFirst ? 'hidden' : 'inherit' }"
            v-on:click="previousPanel()">Previous</a>
         <a v-on:click="playCurrentVideo()">Play</a>
-        <a v-bind:style="{ visibility: currentPanelIsLast ? 'hidden' : 'inherit' }"
-           v-on:click="nextPanel()" >Next</a>
+        <router-link v-bind:to="nextStripNumber.toString()">Next</router-link>
       </div>
       <a v-on:click="requestFullScreen"><h1>REQUEST FULL SCREEN</h1></a>
     </div>
+    {{stripNumber}}
   </center>
 </template>
 
@@ -55,7 +55,6 @@
     methods: {
       setCurrentStrip: function (stripIndex) {
         var startStrip = this.strips[stripIndex];
-
         var panelsToLoad = this.getPanelsToLoad(startStrip.startPanelIndex,
                                                 this.panelsMap,
                                                 this.strips,
@@ -70,10 +69,10 @@
       /// the panel with the matching index, and
       /// the buffering panelsnpmnop
       /// todo: possibly add parameter validation.
-      getPanelsToLoad: function (panelIndex,
-                                 panelsMap,
-                                 stripsData,
-                                 bufferSize) {
+      getPanelsToLoad: function(panelIndex,
+                                panelsMap,
+                                stripsData,
+                                bufferSize) {
         var panelsToLoad = [];
         const panelsToLoadStartIndex = Math.max(0, panelIndex - bufferSize);
         const panelsToLoadEndIndex = Math.min(panelsMap.length - 1, panelIndex + bufferSize);
@@ -211,6 +210,9 @@
           return 0;
         }
         return this.stripNumber - 1;
+      },
+      nextStripNumber: function () {
+        return Math.min(this.panelsMap.length, this.stripIndex + 2);
       }
     }
   };
