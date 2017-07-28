@@ -26,7 +26,6 @@
       </div>
       <a v-on:click="requestFullScreen"><h1>REQUEST FULL SCREEN</h1></a>
     </div>
-    {{stripNumber}}
   </center>
 </template>
 
