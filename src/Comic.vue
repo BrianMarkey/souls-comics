@@ -32,7 +32,7 @@
 <script>
   export default {
     name: 'comic',
-    props: ['strips', 'stripUrlName'],
+    props: ['strips', 'stripUrlName', 'panelNumber'],
     data: function () {
       return {
         // The index of the current list item in the
@@ -42,7 +42,7 @@
         currentItemIndex: 0,
         panels: [],
         panelWidth: 720,
-        panelBufferSize: 1,
+        panelBufferSize: 0,
         panelsMap: [],
         stripsUrlNameMap: { }
       };
@@ -52,25 +52,35 @@
       this.panelsMap = maps.panelsMap;
       this.stripsUrlNameMap = maps.urlNamesMap;
       const stripIndex = this.getStripIndexFromUrlName(this.stripUrlName);
-      this.setCurrentStrip(stripIndex);
+      const strip = this.strips[stripIndex];
+      const panelIndex = this.getPanelIndexFromPanelNumber(strip, this.panelNumber);
+      this.setCurrentPanel(strip, stripIndex, panelIndex);
     },
     methods: {
       getStripIndexFromUrlName: function(stripUrlName) {
         const stripIndex = this.stripsUrlNameMap[stripUrlName];
+        
         if (typeof stripIndex === 'undefined') {
           return 0;
         }
         return stripIndex;
       },
-      setCurrentStrip: function (stripIndex) {
-        var startStrip = this.strips[stripIndex];
-        var panelsToLoad = this.getPanelsToLoad(startStrip.startPanelIndex,
+      getPanelIndexFromPanelNumber: function(strip, panelNumber) {
+        var panelIndex = this.isInt(panelNumber) ? panelNumber - 1 : 0;
+        return panelIndex > strip.panels.length - 1 ? 0 : panelIndex;
+      },
+      setCurrentPanel: function (strip, stripIndex, panelIndex) {
+        var panelsToLoad = this.getPanelsToLoad(panelIndex,
                                                 this.panelsMap,
+                                                strip,
                                                 this.strips,
                                                 this.panelBufferSize);
-        this.addPanelsToCollection(panelsToLoad,
-                                   this,
-                                   this.panelsMap);
+
+        this.panels = panelsToLoad;
+
+        this.currentStripIndex = stripIndex;
+        this.currentPanelIndex = this.panelBufferSize;
+        this.currentItemIndex = this.panelBufferSize;
       },
       /// Get the panels which should be loaded
       /// for a panel of a given index, including
@@ -79,20 +89,20 @@
       /// todo: possibly add parameter validation.
       getPanelsToLoad: function(panelIndex,
                                 panelsMap,
+                                strip,
                                 stripsData,
                                 bufferSize) {
         var panelsToLoad = [];
-        const panelsToLoadStartIndex = Math.max(0, panelIndex - bufferSize);
-        const panelsToLoadEndIndex = Math.min(panelsMap.length - 1, panelIndex + bufferSize);
+        const globalPanelIndex = strip.startPanelIndex + panelIndex;
+        const panelsToLoadStartIndex = Math.max(0, globalPanelIndex - bufferSize);
+        const panelsToLoadEndIndex = Math.min(panelsMap.length - 1, globalPanelIndex + bufferSize);
 
         for (var i = panelsToLoadStartIndex; i <= panelsToLoadEndIndex; i++) {
           var panelMap = panelsMap[i];
-          if (!panelMap.hasBeenLoaded) {
-            // Get the actual panel from the strip
-            // and panel indexes in the panel map object
-            const panelToLoad = stripsData[panelMap.stripIndex].panels[panelMap.panelIndex];
-            panelsToLoad.push(panelToLoad);
-          }
+          // Get the actual panel from the strip
+          // and panel indexes in the panel map object
+          const panelToLoad = stripsData[panelMap.stripIndex].panels[panelMap.panelIndex];
+          panelsToLoad.push(panelToLoad);
         }
 
         return panelsToLoad;
@@ -207,10 +217,10 @@
     },
     computed: {
       panelsLeftOffset: function () {
-        return this.panelWidth * this.currentItemIndex * -1;
+        return this.panelWidth * this.panelBufferSize;
       },
       currentPanelIsFirst: function () {
-        return this.currentItemIndex === 0;
+        return this.stripIndex === 0 && this.currentPanelIndex === 0;
       },
       currentPanelIsLast: function () {
         return this.currentItemIndex === this.panels.length - 1;
@@ -222,7 +232,9 @@
         return this.stripNumber - 1;
       },
       nextPanelPath: function () {
-        return Math.min(this.panelsMap.length, this.stripIndex + 2);
+        var currentStrip = this.strips[this.currentStripIndex];
+        const nextStripIndex = Math.min(this.strips.length - 1, this.currentStripIndex + 1);
+        return this.strips[nextStripIndex].urlName + '/';
       }
     }
   };

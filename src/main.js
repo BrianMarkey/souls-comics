@@ -16,14 +16,26 @@ const routes = [
     component: Comic,
     props: (route) => ({
                         strips: data.strips,
-                        stripUrlName: route.params.stripUrlName
+                        stripUrlName: route.params.stripUrlName,
+                        panelNumber: 1
+                      })
+  },
+  {
+    path: '/:stripUrlName/panels/:panelNumber',
+    component: Comic,
+    props: (route) => ({
+                        strips: data.strips,
+                        stripUrlName: route.params.stripUrlName,
+                        panelNumber: route.params.panelNumber
                       })
   },
   {
     path: '/',
     component: Comic,
     props: (route) => ({
-                        strips: data.strips
+                        strips: data.strips,
+                        stripUrlName: data.strips[0].urlName,
+                        panelNumber: 1
                       })
   }
 ]
