@@ -6,14 +6,7 @@
           <ul ref="panels" v-bind:style="{ marginLeft: panelsLeftOffset + 'px', width: panels.length * panelWidth + 'px'}">
             <li v-for="panel in panels">
               <div class="currentListItem">
-                <video v-if="panels"
-                      playsinline="true"
-                      webkit-playsinline=""
-                      poster=""
-                      class="panel-video"
-                      ref="vids">
-                      <source id="webmSource" v-bind:src="panel.source" type="video/webm">
-                </video>
+                <panel v-bind:panel="panel"></panel>
               </div>
             </li>
           </ul>

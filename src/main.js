@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Comic from './Comic.vue';
+import Panel from './Panel.vue';
 import data from 'static/strip-data.json';
 
 require.context("static/", true);
@@ -9,6 +10,7 @@ const VueTouch = require('vue-touch');
 
 Vue.use(VueRouter);
 Vue.use(VueTouch, { name: 'v-touch' });
+Vue.component('panel', Panel);
 
 const routes = [
   {
