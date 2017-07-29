@@ -24,3 +24,11 @@
     }
   }
 </script>
+
+
+<style lang="less">
+  .panel-video {
+    width: 100%;
+    max-width: 720px;
+  }
+</style>

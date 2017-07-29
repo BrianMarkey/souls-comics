@@ -12,8 +12,8 @@
           </ul>
       </div>
       <div class="controls">
-        <a v-bind:style="{ visibility: currentPanelIsFirst ? 'hidden' : 'inherit' }"
-           v-on:click="previousPanel()">Previous</a>
+        <router-link v-bind:to="previousPanelPath"
+                     v-bind:style="{ visibility: currentPanelIsFirst ? 'hidden' : 'inherit' }">Previous</router-link>
         <a v-on:click="playCurrentVideo()">Play</a>
         <router-link v-bind:to="nextPanelPath"
                      v-bind:style="{ visibility: currentPanelIsLast ? 'hidden' : 'inherit' }">Next</router-link>
@@ -89,8 +89,17 @@
                                 bufferSize) {
         var panelsToLoad = [];
         const globalPanelIndex = strip.startPanelIndex + panelIndex;
-        const panelsToLoadStartIndex = Math.max(0, globalPanelIndex - bufferSize);
-        const panelsToLoadEndIndex = Math.min(panelsMap.length - 1, globalPanelIndex + bufferSize);
+
+        // Get the start index of the range of
+        // panels to load.
+        var panelsToLoadStartIndex = Math.max(0, globalPanelIndex - bufferSize);
+
+        // Get the end index of the range of
+        // panels to load.
+        var panelsToLoadEndIndex = Math.min(panelsMap.length - 1, globalPanelIndex + bufferSize);
+        if (this.panelIsLast(stripIndex, panelIndex, stripsData)) {
+          panelsToLoadStartIndex = panelsToLoadStartIndex -1;
+        }
 
         for (var i = panelsToLoadStartIndex; i <= panelsToLoadEndIndex; i++) {
           var panelMap = panelsMap[i];
@@ -194,6 +203,9 @@
         if (this.currentPanelIsFirst) {
           return 0;
         }
+        if (this.currentPanelIsLast) {
+          return this.panelBufferSize * 2;
+        }
         return this.panelBufferSize;
       },
       stripIndex: function () {
@@ -207,10 +219,21 @@
           return '';
         }
         var currentStrip = this.strips[this.currentStripIndex];
-        if (this.currentPanelIndexInStrip == currentStrip.panels.length - 1) {
+        if (this.currentPanelIndexInStrip === currentStrip.panels.length - 1) {
           return '/' + this.strips[this.currentStripIndex + 1].urlName + '/panels/1'
         }
-        return currentStrip.urlName + '/panels/' + (this.currentPanelIndexInStrip + 2);
+        return '/' + currentStrip.urlName + '/panels/' + (this.currentPanelIndexInStrip + 2);
+      },
+      previousPanelPath: function () {
+        if (this.currentPanelIsFirst) {
+          return '';
+        }
+        var currentStrip = this.strips[this.currentStripIndex];
+        if (this.currentPanelIndexInStrip === 0) {
+          const previousStrip = this.strips[this.currentStripIndex - 1];
+          return '/' + previousStrip.urlName + '/panels/' + previousStrip.panels.length;
+        }
+        return '/' + currentStrip.urlName + '/panels/' + (this.currentPanelIndexInStrip);
       }
     },
     watch: {
@@ -224,10 +247,6 @@
 <style lang="less">
   a {
     cursor: pointer;
-  }
-  .panel-video {
-    width: 100%;
-    max-width: 720px;
   }
   .panels-container {
     overflow: hidden;
