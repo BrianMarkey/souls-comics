@@ -1,0 +1,8 @@
+Fix broken unit tests
+Write more unit tests
+Url re-writes?
+Style the desktop nav
+Design mobile nav
+Think about bigger panels for desktop
+Figure out full screen for mobile
+Figure out full screen for desktop
