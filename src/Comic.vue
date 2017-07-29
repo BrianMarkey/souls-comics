@@ -42,7 +42,7 @@
         currentPanelIndexInStrip: 0,
         panels: [],
         panelWidth: 720,
-        panelBufferSize: 0,
+        panelBufferSize: 1,
         panelsMap: [],
         stripsUrlNameMap: { }
       };
@@ -74,6 +74,7 @@
       },
       setCurrentPanel: function (strip, stripIndex, panelIndex) {
         var panelsToLoad = this.getPanelsToLoad(panelIndex,
+                                                stripIndex,
                                                 this.panelsMap,
                                                 strip,
                                                 this.strips,
@@ -88,6 +89,7 @@
       /// the buffering panels.
       /// todo: possibly add parameter validation.
       getPanelsToLoad: function(panelIndex,
+                                stripIndex,
                                 panelsMap,
                                 strip,
                                 stripsData,
@@ -156,49 +158,6 @@
       playCurrentVideo: function () {
         this.$refs.vids[this.currentPanelIndexInQueue].play();
       },
-      nextPanel: function () {
-        // Should we load another panel?
-        var anotherPanelIsNeedeed = this.currentPanelIndexInQueue === this.panels.length - 1 - this.panelBufferSize;
-        if (anotherPanelIsNeedeed) {
-          var nextPanel = this.getPanel();
-          if (nextPanel != null) {
-            this.panels.push(nextPanel);
-          }
-          this.panels.push(panelToLoad);
-        }
-        if (!this.currentPanelIsLast) {
-          this.currentPanelIndexInQueue++;
-        }
-        this.$nextTick(function () {
-          this.playCurrentVideo();
-        });
-      },
-      /// Get the panel based on the zero-based strip index
-      /// and zero-based panel index provided
-      /// Returns 'null' if no panel is found for the given indexes 
-      getPanel: function (stripIndex, panelIndex) {
-        if (typeof stripIndex === 'undefined' ||
-            typeof panelIndex === 'undefined' ) {
-          return null;
-        }
-        var strip = this.strips[stripIndex];
-        if (!strip || !strip.panels) {
-          return null;
-        }
-        var panel = strip.panels[panelIndex];
-        if (!panel) {
-          return null;
-        }
-        return panel;
-      },
-      previousPanel: function () {
-        if (!this.currentPanelIsFirst) {
-          this.currentPanelIndexInQueue--;
-        }
-        this.$nextTick(function () {
-          this.playCurrentVideo();
-        });
-      },
       requestFullScreen: function () {
         var firstVid = document.querySelector('video');
         console.log(firstVid.requestFullscreen);
@@ -213,26 +172,34 @@
         }
         var x = parseFloat(value);
         return (x | 0) === x;
+      },
+      panelIsLast(stripIndex, panelIndexInStrip, stripsData) {
+        var strip = stripsData[stripIndex];
+        return stripIndex === stripsData.length - 1 &&
+              panelIndexInStrip === strip.panels.length - 1;
+      },
+      panelIsFirst(stripIndex, panelIndexInStrip) {
+        return panelIndexInStrip === 0 &&
+               stripIndex === 0;
       }
     },
     computed: {
       panelsLeftOffset: function () {
-        return this.panelWidth * this.panelBufferSize;
+        return -this.panelWidth * this.panelBufferSize * this.currentPanelIndexInQueue;
       },
       currentPanelIsFirst: function () {
-        return this.currentStripIndex === 0 && this.currentPanelIndexInStrip === 0;
+        return this.panelIsFirst(this.currentStripIndex, this.currentPanelIndexInStrip);
       },
       currentPanelIsLast: function () {
         var strip = this.strips[this.currentStripIndex];
-        return this.currentStripIndex === this.strips.length - 1 &&
-              this.currentPanelIndexInStrip === strip.panels.length - 1;
+
+        return this.panelIsLast(this.currentStripIndex,
+                                this.currentPanelIndexInStrip,
+                                this.strips);
       },
       currentPanelIndexInQueue: function() {
         if (this.currentPanelIsFirst) {
           return 0;
-        }
-        if (this.currentPanelIsLast) {
-          return this.panelBufferSize * 2;
         }
         return this.panelBufferSize;
       },
