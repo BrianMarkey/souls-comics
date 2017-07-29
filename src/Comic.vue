@@ -22,7 +22,8 @@
         <a v-bind:style="{ visibility: currentPanelIsFirst ? 'hidden' : 'inherit' }"
            v-on:click="previousPanel()">Previous</a>
         <a v-on:click="playCurrentVideo()">Play</a>
-        <!--<router-link v-bind:to="nextStripNumber.toString()">Next</router-link>-->
+        <router-link v-bind:to="nextPanelPath"
+                     v-bind:style="{ visibility: currentPanelIsLast ? 'hidden' : 'inherit' }">Next</router-link>
       </div>
       <a v-on:click="requestFullScreen"><h1>REQUEST FULL SCREEN</h1></a>
     </div>
@@ -218,18 +219,19 @@
         return this.panelWidth * this.panelBufferSize;
       },
       currentPanelIsFirst: function () {
-        return this.stripIndex === 0 && this.currentPanelIndexInStrip === 0;
+        return this.currentStripIndex === 0 && this.currentPanelIndexInStrip === 0;
       },
       currentPanelIsLast: function () {
-        var strip = this.strips[this.stripIndex];
-        return this.stripIndex === this.strips.length - 1 &&
+        var strip = this.strips[this.currentStripIndex];
+        console.log(strip);
+        return this.currentStripIndex === this.strips.length - 1 &&
               this.currentPanelIndexInStrip === strip.panels.length - 1;
       },
       currentPanelIndexInQueue: function() {
-        if (this.currentPanelIsFirst()){
+        if (this.currentPanelIsFirst) {
           return 0;
         }
-        if (this.currentPanelIsLast()) {
+        if (this.currentPanelIsLast) {
           return this.panelBufferSize * 2;
         }
         return this.panelBufferSize;
@@ -241,9 +243,14 @@
         return this.stripNumber - 1;
       },
       nextPanelPath: function () {
+        if (this.currentPanelIsLast) {
+          return '';
+        }
         var currentStrip = this.strips[this.currentStripIndex];
-        const nextStripIndex = Math.min(this.strips.length - 1, this.currentStripIndex + 1);
-        return this.strips[nextStripIndex].urlName + '/';
+        if (this.currentPanelIndexInStrip == currentStrip.panels.length - 1) {
+          return this.strips[this.currentStripIndex + 1].urlName + '/panels/1'
+        }
+        return currentStrip.urlName + '/panels/' + (this.currentPanelIndexInStrip + 2);
       }
     }
   };
