@@ -38,8 +38,7 @@
         // The index of the current list item in the
         // current area's list of items.
         currentStripIndex: 0,
-        currentPanelIndex: 0,
-        currentItemIndex: 0,
+        currentPanelIndexInStrip: 0,
         panels: [],
         panelWidth: 720,
         panelBufferSize: 0,
@@ -79,8 +78,7 @@
         this.panels = panelsToLoad;
 
         this.currentStripIndex = stripIndex;
-        this.currentPanelIndex = this.panelBufferSize;
-        this.currentItemIndex = this.panelBufferSize;
+        this.currentPanelIndexInStrip = panelIndex;
       },
       /// Get the panels which should be loaded
       /// for a panel of a given index, including
@@ -154,11 +152,11 @@
         return { panelsMap, urlNamesMap };
       },
       playCurrentVideo: function () {
-        this.$refs.vids[this.currentItemIndex].play();
+        this.$refs.vids[this.currentPanelIndexInQueue].play();
       },
       nextPanel: function () {
         // Should we load another panel?
-        var anotherPanelIsNeedeed = this.currentItemIndex === this.panels.length - 1 - this.panelBufferSize;
+        var anotherPanelIsNeedeed = this.currentPanelIndexInQueue === this.panels.length - 1 - this.panelBufferSize;
         if (anotherPanelIsNeedeed) {
           var nextPanel = this.getPanel();
           if (nextPanel != null) {
@@ -167,7 +165,7 @@
           this.panels.push(panelToLoad);
         }
         if (!this.currentPanelIsLast) {
-          this.currentItemIndex++;
+          this.currentPanelIndexInQueue++;
         }
         this.$nextTick(function () {
           this.playCurrentVideo();
@@ -193,7 +191,7 @@
       },
       previousPanel: function () {
         if (!this.currentPanelIsFirst) {
-          this.currentItemIndex--;
+          this.currentPanelIndexInQueue--;
         }
         this.$nextTick(function () {
           this.playCurrentVideo();
@@ -220,10 +218,21 @@
         return this.panelWidth * this.panelBufferSize;
       },
       currentPanelIsFirst: function () {
-        return this.stripIndex === 0 && this.currentPanelIndex === 0;
+        return this.stripIndex === 0 && this.currentPanelIndexInStrip === 0;
       },
       currentPanelIsLast: function () {
-        return this.currentItemIndex === this.panels.length - 1;
+        var strip = this.strips[this.stripIndex];
+        return this.stripIndex === this.strips.length - 1 &&
+              this.currentPanelIndexInStrip === strip.panels.length - 1;
+      },
+      currentPanelIndexInQueue: function() {
+        if (this.currentPanelIsFirst()){
+          return 0;
+        }
+        if (this.currentPanelIsLast()) {
+          return this.panelBufferSize * 2;
+        }
+        return this.panelBufferSize;
       },
       stripIndex: function () {
         if (!this.isInt(this.stripNumber)) {
