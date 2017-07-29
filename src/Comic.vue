@@ -51,12 +51,15 @@
       const maps = this.createMaps();
       this.panelsMap = maps.panelsMap;
       this.stripsUrlNameMap = maps.urlNamesMap;
-      const stripIndex = this.getStripIndexFromUrlName(this.stripUrlName);
-      const strip = this.strips[stripIndex];
-      const panelIndex = this.getPanelIndexFromPanelNumber(strip, this.panelNumber);
-      this.setCurrentPanel(strip, stripIndex, panelIndex);
+      this.loadFromRouteValues();
     },
     methods: {
+      loadFromRouteValues: function() {
+        const stripIndex = this.getStripIndexFromUrlName(this.stripUrlName);
+        const strip = this.strips[stripIndex];
+        const panelIndex = this.getPanelIndexFromPanelNumber(strip, this.panelNumber);
+        this.setCurrentPanel(strip, stripIndex, panelIndex);
+      },
       getStripIndexFromUrlName: function(stripUrlName) {
         const stripIndex = this.stripsUrlNameMap[stripUrlName];
         
@@ -75,9 +78,7 @@
                                                 strip,
                                                 this.strips,
                                                 this.panelBufferSize);
-
         this.panels = panelsToLoad;
-
         this.currentStripIndex = stripIndex;
         this.currentPanelIndexInStrip = panelIndex;
       },
@@ -223,7 +224,6 @@
       },
       currentPanelIsLast: function () {
         var strip = this.strips[this.currentStripIndex];
-        console.log(strip);
         return this.currentStripIndex === this.strips.length - 1 &&
               this.currentPanelIndexInStrip === strip.panels.length - 1;
       },
@@ -248,11 +248,16 @@
         }
         var currentStrip = this.strips[this.currentStripIndex];
         if (this.currentPanelIndexInStrip == currentStrip.panels.length - 1) {
-          return this.strips[this.currentStripIndex + 1].urlName + '/panels/1'
+          return '/' + this.strips[this.currentStripIndex + 1].urlName + '/panels/1'
         }
         return currentStrip.urlName + '/panels/' + (this.currentPanelIndexInStrip + 2);
       }
+    },
+    watch: {
+    '$route.params': function (params) {
+      this.loadFromRouteValues();
     }
+  },
   };
 </script>
 
