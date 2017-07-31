@@ -35,11 +35,15 @@ module.exports = {
 
     return panelsToLoad;
   },
+  /// Determines if a given panel index is the
+  /// first in the overall list of panels
   panelIsLast(stripIndex, panelIndexInStrip, stripsData) {
     var strip = stripsData[stripIndex];
     return stripIndex === stripsData.length - 1 &&
           panelIndexInStrip === strip.panels.length - 1;
   },
+  /// Determines if a given panel index is the
+  /// first in the overall list of panels.
   panelIsFirst(stripIndex, panelIndexInStrip) {
     return panelIndexInStrip === 0 &&
           stripIndex === 0;
