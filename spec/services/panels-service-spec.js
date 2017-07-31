@@ -1,5 +1,99 @@
 import panelsService from 'src/services/panels-service.js'
 
+describe("panels-service.getPanelsToLoad()", function() {
+  var strips = [
+    {
+      "name": "Test strip one.",
+      "urlName": "test-strip-one",
+      "startPanelIndex": 0,
+      "panels": [
+        {
+          "type": "video",
+          "source": "0"
+        },
+        {
+          "type": "video",
+          "source": "1"
+        }
+      ]
+    },
+    {
+      "name": "Test strip two.",
+      "urlName": "test-strip-two",
+      "startPanelIndex": 2,
+      "panels": [
+        {
+          "type": "video",
+          "source": "2"
+        },
+        {
+          "type": "video",
+          "source": "3"
+        }
+      ]
+    }
+  ];
+
+  const panelsMap = [
+    { stripIndex: 0, panelIndex: 0 },
+    { stripIndex: 0, panelIndex: 1 },
+    { stripIndex: 1, panelIndex: 0 },
+    { stripIndex: 1, panelIndex: 1 }
+  ];
+
+  it("returns the first 2 panels when the panel is the first overall and the buffer size is 1", function() {
+    const panelIndex = 0;
+    const stripIndex = 0;
+    const strip = strips[stripIndex];
+    const bufferSize = 1;
+
+    const result = panelsService.getPanelsToLoad(panelIndex,
+                                                 stripIndex,
+                                                 panelsMap,
+                                                 strip,
+                                                 strips,
+                                                 bufferSize);
+    expect(result.length).toBe(2);
+    expect(result[0].source).toBe("0");
+    expect(result[1].source).toBe("1");
+  });
+
+  it("returns the first 3 panels when the panel index is 1, the strip index is 0 and the buffer size is 1", function() {
+    const panelIndex = 1;
+    const stripIndex = 0;
+    const strip = strips[stripIndex];
+    const bufferSize = 1;
+
+    const result = panelsService.getPanelsToLoad(panelIndex,
+                                                 stripIndex,
+                                                 panelsMap,
+                                                 strip,
+                                                 strips,
+                                                 bufferSize);
+    expect(result.length).toBe(3);
+    expect(result[0].source).toBe("0");
+    expect(result[1].source).toBe("1");
+    expect(result[2].source).toBe("2");
+  });
+
+  it("returns the last 2 panels when the panel is the last overall panel and the buffer size is 1", function() {
+    const panelIndex = 1;
+    const stripIndex = 0;
+    const strip = strips[stripIndex];
+    const bufferSize = 1;
+
+    const result = panelsService.getPanelsToLoad(panelIndex,
+                                                 stripIndex,
+                                                 panelsMap,
+                                                 strip,
+                                                 strips,
+                                                 bufferSize);
+    expect(result.length).toBe(2);
+    expect(result[0].source).toBe("2");
+    expect(result[1].source).toBe("3");
+  });
+});
+
 describe("panels-service.panelIsLast()", function() {
   var strips = [
     {
