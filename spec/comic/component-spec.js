@@ -91,40 +91,6 @@ describe("comic component", function() {
 
 });
 
-// describe("comic.getPanel()", function() {
-//   it("returns the correct panel", function() {
-//     var component = getComponentWithData(data);
-//     var source = component.getPanel(0,0).source;
-//     expect(source).toBe("https://giant.gfycat.com/FlimsySpottedAmericancrocodile.webm");
-//   });
-  
-//   it("returns null if the strip doesn't exist", function() {
-//     var component = getComponentWithData(data);
-//     var panel = component.getPanel(data.strips.length, 0);
-//     expect(panel).toBe(null);
-//   });
-  
-//   it("returns null if the panel doesn't exist", function() {
-//     var stripIndex = 0;
-//     var nonExistentPanelIndex = data.strips[stripIndex].panels.length;
-//     var component = getComponentWithData(data);
-//     var panel = component.getPanel(stripIndex, nonExistentPanelIndex);
-//     expect(panel).toBe(null);
-//   });
-  
-//   it("returns null if only one parameter is passed", function() {
-//     var component = getComponentWithData(data);
-//     var panel = component.getPanel(0);
-//     expect(panel).toBe(null);
-//   });
-  
-//   it("returns null if no parameters are passed", function() {
-//     var component = getComponentWithData(data);
-//     var panel = component.getPanel();
-//     expect(panel).toBe(null);
-//   });
-// });
-
 describe("comic.getPanelsToLoad()", function() {
   var data = null;
 
