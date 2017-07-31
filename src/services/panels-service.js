@@ -44,19 +44,22 @@ module.exports = {
     return panelIndexInStrip === 0 &&
           stripIndex === 0;
   },
+  /// Convert the one-based, string panel number route value
+  /// to a zero-based integer panel index.
   getPanelIndexFromPanelNumber: function(strip, panelNumber) {
     if (!utilsService.isInt(panelNumber)) {
       return 0;
     }
-    const panelIndex = parseInt(panelNumber);
+    const panelNumberInt = parseInt(panelNumber);
 
-    if (panelIndex < 0) {
+    if (panelNumberInt < 0) {
       return 0;
     }
 
-    return panelIndex > strip.panels.length - 1 ? 0 : panelIndex;
+    return panelNumberInt > strip.panels.length ? 0 : panelNumberInt - 1;
   },
   /// Create an array which maps panels to their strip
+  /// and a hash set object which maps url names to strips.
   createMaps: function (strips) {
     const panelsMap = [];
     const urlNamesMap = {};
