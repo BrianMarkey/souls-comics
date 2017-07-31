@@ -49,6 +49,11 @@ module.exports = {
       return 0;
     }
     const panelIndex = parseInt(panelNumber);
+
+    if (panelIndex < 0) {
+      return 0;
+    }
+
     return panelIndex > strip.panels.length - 1 ? 0 : panelIndex;
   },
   /// Create an array which maps panels to their strip
