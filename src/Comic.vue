@@ -111,35 +111,6 @@
 
         return panelsToLoad;
       },
-      /// Add the given panels to the global
-      /// collection of panels, which will update the DOM
-      /// We pass in the parent object of the panels
-      /// array to make it more testable. The component
-      /// will pass the instance of itself when it uses this method.
-      addPanelsToCollection: function (panelsToAdd,
-                                       panelsParentObject,
-                                       panelsMap) {
-        // Concat the panels to add to create a new array
-        var newPanels = panelsParentObject.panels.concat(panelsToAdd);
-        // Sort the new array by the global panel index
-        newPanels.sort(function (a, b) {
-          if (a.panelSort < b.panelSort) {
-            return -1;
-          }
-          if (a.panelSort > b.panelSort) {
-            return 1;
-          }
-          return 0;
-        });
-        // Overwrite the array of loaded panels with the
-        // new, sorted array.
-        panelsParentObject.panels = newPanels;
-        // Update the panels map to mark the newly
-        // loaded panels as loaded.
-        panelsToAdd.forEach(function (panelToUpdate) {
-          panelsMap[panelToUpdate.panelSort].hasBeenLoaded = true;
-        });
-      },
       /// Create an array which maps panels to their strip
       createMaps: function () {
         const panelsMap = [];

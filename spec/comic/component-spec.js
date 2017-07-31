@@ -1,5 +1,11 @@
 import Vue from 'vue'
 import Comic from 'src/Comic.vue'
+import Panel from 'src/Panel.vue'
+import VueRouter from 'vue-router';
+
+Vue.component('panel', Panel);
+Vue.component('router-link', VueRouter.routerLink);
+
 
 function getComponentWithData (propsData) {
   const constructor = Vue.extend(Comic);
@@ -190,115 +196,5 @@ describe("comic.getPanelsToLoad()", function() {
     var loadedPanels = component.getPanelsToLoad(1, data.mapData, data.stripsData, 1);
     expect(loadedPanels.length).toBe(1);
     expect(loadedPanels[0].source).toBe(data.stripsData[0].panels[panelIndexToLoad].source);
-  });
-});
-
-describe("comic.addPanelsToCollection()", function() {
-  var data = null;
-
-  beforeEach(function() {
-    data = dataFactory.createData();
-  });
-
-  it("adds a single panel to the collection", function() {
-    const component = getComponentWithData({strips: data.stripsData, stripNumber: 1});
-    const panelToAdd = data.stripsData[0].panels[0];
-    const panelsToAdd = [panelToAdd];
-    const panelsMap = data.mapData;
-    const panelsParentObject = { panels: [] };
-    component.addPanelsToCollection(panelsToAdd,
-                                    panelsParentObject,
-                                    panelsMap);
-
-    expect(panelsParentObject.panels.length).toBe(1);
-    expect(panelsParentObject.panels[0].source).toBe(panelToAdd.source);
-  });
-
-  it("adds a multiple panels to the collection", function() {
-    const component = getComponentWithData({strips: data.stripsData, stripNumber: 1});
-    const panelToAdd1 = data.stripsData[0].panels[0];
-    const panelToAdd2 = data.stripsData[0].panels[1];
-    const panelsToAdd = [panelToAdd1, panelToAdd2];
-    const panelsMap = data.mapData;
-    const panelsParentObject = { panels: [] };
-    component.addPanelsToCollection(panelsToAdd,
-                                    panelsParentObject,
-                                    panelsMap);
-
-    expect(panelsParentObject.panels.length).toBe(2);
-    expect(panelsParentObject.panels[0].source).toBe(panelToAdd1.source);
-    expect(panelsParentObject.panels[1].source).toBe(panelToAdd2.source);
-  });
-
-  // V
-  //  |
-  it("sorts panels correctly when panels before the existing panel are added", function() {
-    const component = getComponentWithData({strips: data.stripsData, stripNumber: 1});
-    const existingPanel = data.stripsData[0].panels[1];
-    const panelToAdd = data.stripsData[0].panels[0];
-    const panelsToAdd = [panelToAdd];
-    const panelsMap = data.mapData;
-    const panelsParentObject = { panels: [] };
-    panelsParentObject.panels.push(existingPanel);
-    component.addPanelsToCollection(panelsToAdd,
-                                    panelsParentObject,
-                                    panelsMap);
-
-    expect(panelsParentObject.panels.length).toBe(2);
-    expect(panelsParentObject.panels[0].source).toBe(panelToAdd.source);
-    expect(panelsParentObject.panels[1].source).toBe(existingPanel.source);
-  });
-
-  //  V
-  // |
-  it("sorts panels correctly when panels after the existing panel are added", function() {
-    const component = getComponentWithData({strips: data.stripsData, stripNumber: 1});
-    const existingPanel = data.stripsData[0].panels[0];
-    const panelToAdd = data.stripsData[0].panels[1];
-    const panelsToAdd = [panelToAdd];
-    const panelsMap = data.mapData;
-    const panelsParentObject = { panels: [existingPanel] };
-    component.addPanelsToCollection(panelsToAdd,
-                                    panelsParentObject,
-                                    panelsMap);
-
-    expect(panelsParentObject.panels.length).toBe(2);
-    expect(panelsParentObject.panels[0].source).toBe(existingPanel.source);
-    expect(panelsParentObject.panels[1].source).toBe(panelToAdd.source);
-  });
-
-  //  V
-  // | |
-  it("sorts panels correctly when panels are added in between the existing panels", function() {
-    const component = getComponentWithData({strips: data.stripsData, stripNumber: 1});
-    const existingPanel1 = data.stripsData[0].panels[0];
-    const existingPanel2 = data.stripsData[0].panels[2];
-    const panelToAdd = data.stripsData[0].panels[1];
-    const panelsToAdd = [panelToAdd];
-    const panelsMap = data.mapData;
-    const panelsParentObject = { panels: [existingPanel1, existingPanel2] };
-    component.addPanelsToCollection(panelsToAdd,
-                                    panelsParentObject,
-                                    panelsMap);
-
-    expect(panelsParentObject.panels.length).toBe(3);
-    expect(panelsParentObject.panels[0].source).toBe(existingPanel1.source);
-    expect(panelsParentObject.panels[1].source).toBe(panelToAdd.source);
-    expect(panelsParentObject.panels[2].source).toBe(existingPanel2.source);
-  });
-
-  it("updates the hasBeenLoaded property to true when panels are added", function() {
-    const component = getComponentWithData({strips: data.stripsData, stripNumber: 1});
-    const panelToAdd1 = data.stripsData[0].panels[0];
-    const panelToAdd2 = data.stripsData[0].panels[1];
-    const panelsToAdd = [panelToAdd1, panelToAdd2];
-    const panelsMap = data.mapData;
-    const panelsParentObject = { panels: [] };
-    component.addPanelsToCollection(panelsToAdd,
-                                    panelsParentObject,
-                                    panelsMap);
-
-    expect(panelsMap[0].hasBeenLoaded).toBe(true);
-    expect(panelsMap[1].hasBeenLoaded).toBe(true);
   });
 });
