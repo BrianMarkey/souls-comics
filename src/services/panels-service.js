@@ -45,7 +45,10 @@ module.exports = {
           stripIndex === 0;
   },
   getPanelIndexFromPanelNumber: function(strip, panelNumber) {
-    var panelIndex = utilsService.isInt(panelNumber) ? panelNumber - 1 : 0;
+    if (!utilsService.isInt(panelNumber)) {
+      return 0;
+    }
+    const panelIndex = parseInt(panelNumber);
     return panelIndex > strip.panels.length - 1 ? 0 : panelIndex;
   },
   /// Create an array which maps panels to their strip
