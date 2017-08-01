@@ -3,7 +3,11 @@
     <h1>SOULS COMICS</h1>
     <div id="app">
       <div class="panels-container" v-bind:style="{ width: panelWidth + 'px'}">
-        <transition-group tag="ul" v-bind:name="transitionDirection + '-panel'" v-bind:style="{ width : (panelWidth * 2) + 'px' }">
+        <transition-group tag="ul"
+                          v-bind:name="transitionDirection + '-panel'"
+                          v-bind:style="{ width : (panelWidth * 2) + 'px' }"
+                          v-on:before-leave="setTransition(true)"
+                          v-on:after-leave="setTransition(false)">
           <li v-for="panel in panels" v-show="panel.isCurrentPanel" v-bind:key="panel.key">
             <div class="currentListItem">
               <panel v-bind:panel="panel"></panel>
@@ -11,7 +15,7 @@
           </li>
         </transition-group>
       </div>
-      <div class="controls">
+      <div class="controls" v-bind:class="transitionInProgress ? 'disabled' : ''">
         <router-link v-bind:to="previousPanelPath"
                      v-bind:style="{ visibility: currentPanelIsFirst ? 'hidden' : 'inherit' }">Previous</router-link>
         <a v-on:click="playCurrentVideo()">Play</a>
@@ -44,7 +48,8 @@
         panelBufferSize: 1,
         panelsMap: [],
         stripsUrlNameMap: { },
-        transitionDirection: 'next'
+        transitionDirection: 'next',
+        transitionInProgress: false
       };
     },
     beforeMount: function () {
@@ -54,11 +59,17 @@
       this.loadFromRouteValues();
     },
     methods: {
+      setTransition: function (inProgress) {
+        console.log('setting ' + inProgress);
+        this.transitionInProgress = inProgress;
+      },
       loadFromRouteValues: function() {
         const stripIndex = this.stripsUrlNameMap[this.stripUrlName] || 0;
         const strip = this.strips[stripIndex];
         const panelIndex = this.panelsService.getPanelIndexFromPanelNumber(strip, this.panelNumber);
         this.setCurrentPanel(strip, stripIndex, panelIndex);
+        
+        console.log(this.transitionInProgress);
       },
       setCurrentPanel: function (strip, stripIndex, panelIndex) {
         const nextGlobalPanelIndex = strip.startPanelIndex + panelIndex;
@@ -146,6 +157,9 @@
 <style lang="less">
   a {
     cursor: pointer;
+  }
+  .disabled a {
+    pointer-events: none;
   }
   .panels-container {
     overflow: hidden;
