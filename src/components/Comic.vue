@@ -2,8 +2,8 @@
   <center>
     <h1>SOULS COMICS</h1>
     <div id="app">
-      <div class="panels-container">
-        <transition-group tag="ul" name="next-panel">
+      <div class="panels-container" v-bind:style="{ width: panelWidth + 'px'}">
+        <transition-group tag="ul" name="next-panel" v-bind:style="{ width : (panelWidth * 2) + 'px' }">
           <li v-for="panel in panels" v-show="panel.isCurrentPanel" v-bind:key="panel.key">
             <div class="currentListItem">
               <panel v-bind:panel="panel"></panel>
@@ -140,7 +140,6 @@
   }
   .panels-container {
     overflow: hidden;
-    width: 720px;
     display: inline-block;
   }
   .slider-control {
@@ -150,7 +149,6 @@
     padding: 0px;
     margin: 0px;
     text-align: left;
-    width: 2160px;
     li {
       list-style: none;
       display: inline-block;
