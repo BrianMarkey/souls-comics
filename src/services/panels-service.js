@@ -30,6 +30,7 @@ module.exports = {
       // Get the actual panel from the strip
       // and panel indexes in the panel map object
       const panelToLoad = stripsData[panelMap.stripIndex].panels[panelMap.panelIndex];
+      panelToLoad.index = i;
       panelsToLoad.push(panelToLoad);
     }
 

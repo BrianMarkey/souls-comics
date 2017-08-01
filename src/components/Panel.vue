@@ -5,8 +5,9 @@
         webkit-playsinline=""
         poster=""
         class="panel-video"
-        ref="vids">
-        <source id="webmSource" v-bind:src="panel.source" type="video/webm">
+        ref="vids"
+        v-bind:key="panel.index">
+        <source v-bind:src="panel.source" v-bind:data-i="panel.index" type="video/webm">
   </video>
 </template>
 
@@ -14,6 +15,7 @@
 <script>
   export default {
     name: 'panel',
+    index: 'index',
     props: ['panel'],
     data: function () {
       return {
