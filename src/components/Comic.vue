@@ -70,7 +70,7 @@
         const strip = this.strips[stripMap.stripIndex];
         const panelIndex = this.panelsService.getPanelIndexFromPanelNumber(strip, this.panelNumber);
         const nextGlobalPanelIndex = stripMap.startPanelGlobalIndex + panelIndex;
-        this.setCurrentPanel(nextGlobalPanelIndex, stripIndex, panelIndex);
+        this.setCurrentPanel(nextGlobalPanelIndex, stripMap.stripIndex, panelIndex);
       },
       setCurrentPanel: function (nextGlobalPanelIndex, stripIndex, panelIndex) {
         var panelsToLoad = this.panelsService.getPanelsToLoad(this.panelsMap,
