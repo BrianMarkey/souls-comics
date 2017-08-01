@@ -1,39 +1,82 @@
 import panelsService from 'src/services/panels-service.js'
 
-describe("panels-service.getPanelsToLoad()", function() {
-  var strips = [
-    {
-      "name": "Test strip one.",
-      "urlName": "test-strip-one",
-      "startPanelIndex": 0,
-      "panels": [
-        {
-          "type": "video",
-          "source": "0"
-        },
-        {
-          "type": "video",
-          "source": "1"
-        }
-      ]
-    },
-    {
-      "name": "Test strip two.",
-      "urlName": "test-strip-two",
-      "startPanelIndex": 2,
-      "panels": [
-        {
-          "type": "video",
-          "source": "2"
-        },
-        {
-          "type": "video",
-          "source": "3"
-        }
-      ]
-    }
-  ];
+var strips = [
+  {
+    "name": "Test strip one.",
+    "urlName": "test-strip-one",
+    "startPanelIndex": 0,
+    "panels": [
+      {
+        "type": "video",
+        "source": "0"
+      },
+      {
+        "type": "video",
+        "source": "1"
+      }
+    ]
+  },
+  {
+    "name": "Test strip two.",
+    "urlName": "test-strip-two",
+    "startPanelIndex": 2,
+    "panels": [
+      {
+        "type": "video",
+        "source": "2"
+      },
+      {
+        "type": "video",
+        "source": "3"
+      }
+    ]
+  }
+];
 
+describe("panels-service.getNextPanelPath()", function() {
+  it("returns an empty string when the panel is the last", function() {
+    const result = panelsService.getNextPanelPath(true,
+                                                  0,
+                                                  0,
+                                                  strips);
+                                                  
+    expect(result).toBe('');
+  });
+  
+  it("returns the correct route when the current panel is the first overall", function() {
+    const currentPanelIsLast = false;
+    const currentStripIndex = 0;
+    const currentPanelIndexInStrip = 0;
+    const urlName = strips[currentStripIndex].urlName;
+    const panelNumber = currentPanelIndexInStrip + 2;
+    const expectedRoute = '/' + urlName + '/panels/' + panelNumber;
+
+    const result = panelsService.getNextPanelPath(currentPanelIsLast,
+                                                  currentStripIndex,
+                                                  currentPanelIndexInStrip,
+                                                  strips);
+                                                  
+    expect(result).toBe(expectedRoute);
+  });
+  
+  it("returns the correct route when the current panel is the last in the current strip", function() {
+    const currentPanelIsLast = false;
+    const currentStripIndex = 0;
+    const currentPanelIndexInStrip = 1;
+    const urlName = strips[currentStripIndex + 1].urlName;
+    const panelNumber = 1;
+    const expectedRoute = '/' + urlName + '/panels/' + panelNumber;
+
+    const result = panelsService.getNextPanelPath(currentPanelIsLast,
+                                                  currentStripIndex,
+                                                  currentPanelIndexInStrip,
+                                                  strips);
+                                                  
+    expect(result).toBe(expectedRoute);
+  });
+});
+
+describe("panels-service.getPanelsToLoad()", function() {
   const panelsMap = [
     { stripIndex: 0, panelIndex: 0 },
     { stripIndex: 0, panelIndex: 1 },
@@ -156,37 +199,6 @@ describe("panels-service.getPanelsToLoad()", function() {
 });
 
 describe("panels-service.panelIsLast()", function() {
-  var strips = [
-    {
-      "name": "Test strip one.",
-      "urlName": "test-strip-one",
-      "panels": [
-        {
-          "type": "video",
-          "source": "https://giant.gfycat.com/FlimsySpottedAmericancrocodile.webm"
-        },
-        {
-          "type": "video",
-          "source": "https://zippy.gfycat.com/CavernousNiceChamois.webm"
-        }
-      ]
-    },
-    {
-      "name": "Test strip two.",
-      "urlName": "test-strip-two",
-      "panels": [
-        {
-          "type": "video",
-          "source": "https://giant.gfycat.com/PopularPaltryAidi.webm"
-        },
-        {
-          "type": "video",
-          "source": "https://giant.gfycat.com/PopularPaltryAidi2.webm"
-        }
-      ]
-    }
-  ];
-
   it("returns true if the panel is the last in the panels array of the last strip", function() {
     const lastStripIndex = strips.length - 1;
     const lastPanelIndex = strips[lastStripIndex].panels.length - 1;
@@ -259,33 +271,6 @@ describe("panels-service.panelIsFirst()", function() {
 });
 
 describe("panels-service.getPanelIndexFromPanelNumber()", function() {
-  var strips = [
-    {
-      "name": "Test strip one.",
-      "urlName": "test-strip-one",
-      "panels": [
-        {
-          "type": "video",
-          "source": "https://giant.gfycat.com/FlimsySpottedAmericancrocodile.webm"
-        },
-        {
-          "type": "video",
-          "source": "https://zippy.gfycat.com/CavernousNiceChamois.webm"
-        }
-      ]
-    },
-    {
-      "name": "Test strip two.",
-      "urlName": "test-strip-two",
-      "panels": [
-        {
-          "type": "video",
-          "source": "https://giant.gfycat.com/PopularPaltryAidi.webm"
-        }
-      ]
-    }
-  ];
-
   it("returns 0 for a alpha string", function() {
     const result = panelsService.getPanelIndexFromPanelNumber(strips[0], 'dff');
     expect(result).toBe(0);
@@ -318,33 +303,6 @@ describe("panels-service.getPanelIndexFromPanelNumber()", function() {
 });
 
 describe("panels-service.createMaps()", function() {
-  var strips = [
-    {
-      "name": "Test strip one.",
-      "urlName": "test-strip-one",
-      "panels": [
-        {
-          "type": "video",
-          "source": "https://giant.gfycat.com/FlimsySpottedAmericancrocodile.webm"
-        },
-        {
-          "type": "video",
-          "source": "https://zippy.gfycat.com/CavernousNiceChamois.webm"
-        }
-      ]
-    },
-    {
-      "name": "Test strip two.",
-      "urlName": "test-strip-two",
-      "panels": [
-        {
-          "type": "video",
-          "source": "https://giant.gfycat.com/PopularPaltryAidi.webm"
-        }
-      ]
-    }
-  ];
-  
   it("returns an object with an object property called 'urlNamesMap'", function() {
     const result = panelsService.createMaps(strips);
     expect(typeof result.urlNamesMap).toBe('object');
@@ -357,7 +315,7 @@ describe("panels-service.createMaps()", function() {
   
   it("returns an object with a 'panelsMap' property with a length of 3 when there are three total panels in all of the strips", function() {
     const result = panelsService.createMaps(strips);
-    expect(result.panelsMap.length).toBe(3);
+    expect(result.panelsMap.length).toBe(4);
   });
   
   it("returns an object with a 'urlNamesMap' property with a map of the url names to indexes of their first panel", function() {

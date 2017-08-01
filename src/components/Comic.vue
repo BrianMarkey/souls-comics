@@ -108,14 +108,10 @@
                                               this.strips);
       },
       nextPanelPath: function () {
-        if (this.currentPanelIsLast) {
-          return '';
-        }
-        var currentStrip = this.strips[this.currentStripIndex];
-        if (this.currentPanelIndexInStrip === currentStrip.panels.length - 1) {
-          return '/' + this.strips[this.currentStripIndex + 1].urlName + '/panels/1'
-        }
-        return '/' + currentStrip.urlName + '/panels/' + (this.currentPanelIndexInStrip + 2);
+        return this.panelsService.getNextPanelPath(this.currentPanelIsLast,
+                                                   this.currentStripIndex,
+                                                   this.currentPanelIndexInStrip,
+                                                   this.strips);
       },
       previousPanelPath: function () {
         if (this.currentPanelIsFirst) {

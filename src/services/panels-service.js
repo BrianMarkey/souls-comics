@@ -79,5 +79,18 @@ module.exports = {
       }
     }
     return { panelsMap, urlNamesMap };
+  },
+  getNextPanelPath: function(currentPanelIsLast,
+                             currentStripIndex,
+                             currentPanelIndexInStrip,
+                             strips) {
+    if (currentPanelIsLast) {
+      return '';
+    }
+    var currentStrip = strips[currentStripIndex];
+    if (currentPanelIndexInStrip === currentStrip.panels.length - 1) {
+      return '/' + strips[currentStripIndex + 1].urlName + '/panels/1'
+    }
+    return '/' + currentStrip.urlName + '/panels/' + (currentPanelIndexInStrip + 2);
   }
 }
