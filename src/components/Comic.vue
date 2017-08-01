@@ -87,7 +87,7 @@
         this.currentGlobalPanelIndex = nextGlobalPanelIndex;
       },
       playCurrentVideo: function () {
-        this.$refs.vids[this.currentPanelIndexInQueue].play();
+
       },
       requestFullScreen: function () {
         var firstVid = document.querySelector('video');
@@ -99,27 +99,13 @@
       }
     },
     computed: {
-      panelsLeftOffset: function () {
-        return -this.panelWidth * this.panelBufferSize * this.currentPanelIndexInQueue;
-      },
       currentPanelIsFirst: function () {
         return this.panelsService.panelIsFirst(this.currentStripIndex, this.currentPanelIndexInStrip);
       },
       currentPanelIsLast: function () {
-        var strip = this.strips[this.currentStripIndex];
-
         return this.panelsService.panelIsLast(this.currentStripIndex,
                                               this.currentPanelIndexInStrip,
                                               this.strips);
-      },
-      currentPanelIndexInQueue: function() {
-        if (this.currentPanelIsFirst) {
-          return 0;
-        }
-        if (this.currentPanelIsLast) {
-          return this.panelBufferSize * 2;
-        }
-        return this.panelBufferSize;
       },
       nextPanelPath: function () {
         if (this.currentPanelIsLast) {
