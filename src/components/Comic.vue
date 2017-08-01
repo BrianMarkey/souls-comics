@@ -63,17 +63,17 @@
         this.transitionInProgress = inProgress;
       },
       loadFromRouteValues: function() {
-        const stripIndex = this.stripsUrlNameMap[this.stripUrlName] || 0;
-        const strip = this.strips[stripIndex];
+        const stripMap = this.stripsUrlNameMap[this.stripUrlName] || {
+          startPanelGlobalIndex: 0,
+          stripIndex : 0
+        };
+        const strip = this.strips[stripMap.stripIndex];
         const panelIndex = this.panelsService.getPanelIndexFromPanelNumber(strip, this.panelNumber);
-        this.setCurrentPanel(strip, stripIndex, panelIndex);
+        const nextGlobalPanelIndex = stripMap.startPanelGlobalIndex + panelIndex;
+        this.setCurrentPanel(nextGlobalPanelIndex, stripIndex, panelIndex);
       },
-      setCurrentPanel: function (strip, stripIndex, panelIndex) {
-        const nextGlobalPanelIndex = strip.startPanelIndex + panelIndex;
-
-        var panelsToLoad = this.panelsService.getPanelsToLoad(panelIndex,
-                                                              stripIndex,
-                                                              this.panelsMap,
+      setCurrentPanel: function (nextGlobalPanelIndex, stripIndex, panelIndex) {
+        var panelsToLoad = this.panelsService.getPanelsToLoad(this.panelsMap,
                                                               nextGlobalPanelIndex,
                                                               this.strips,
                                                               this.panelBufferSize);

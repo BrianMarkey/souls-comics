@@ -5,9 +5,7 @@ let utilsService = require('src/services/utils-service.js');
 /// the buffering panels.
 /// todo: possibly add parameter validation.
 module.exports = {
-  getPanelsToLoad: function(panelIndex,
-                            stripIndex,
-                            panelsMap,
+  getPanelsToLoad: function(panelsMap,
                             globalPanelIndex,
                             stripsData,
                             bufferSize) {
@@ -71,8 +69,10 @@ module.exports = {
     var panelLoopIndex = 0;
     for (var i = 0; i < strips.length; i++) {
       const strip = strips[i];
-      urlNamesMap[strip.urlName] = i;
-      strip.startPanelIndex = panelLoopIndex;
+      urlNamesMap[strip.urlName] = {
+        stripIndex: i,
+        startPanelGlobalIndex: panelLoopIndex
+      };
       for (var j = 0; j < strip.panels.length; j++) {
         panelsMap.push({stripIndex: i, panelIndex: j});
         panelLoopIndex++;

@@ -41,15 +41,80 @@ describe("panels-service.getPanelsToLoad()", function() {
     { stripIndex: 1, panelIndex: 1 }
   ];
 
+  it("sets the keys for the panels equal to their global indexes when the global panel index is 2 and the buffer size is 1", function() {
+    const globalPanelIndex = 2;
+    const bufferSize = 1;
+
+    const result = panelsService.getPanelsToLoad(panelsMap,
+                                                 globalPanelIndex,
+                                                 strips,
+                                                 bufferSize);
+
+    expect(result[0].key).toBe(1);
+    expect(result[1].key).toBe(2);
+    expect(result[2].key).toBe(3);
+  });
+
+  it("sets the keys for the panels equal to their global indexes when the global panel index is 0 and the buffer size is 1", function() {
+    const globalPanelIndex = 0;
+    const bufferSize = 1;
+
+    const result = panelsService.getPanelsToLoad(panelsMap,
+                                                 globalPanelIndex,
+                                                 strips,
+                                                 bufferSize);
+
+    expect(result[0].key).toBe(0);
+    expect(result[1].key).toBe(1);
+  });
+
+  it("specifies the second panel as current when the global panel index is 1 and the buffer size is 1", function() {
+    const globalPanelIndex = 2;
+    const bufferSize = 1;
+
+    const result = panelsService.getPanelsToLoad(panelsMap,
+                                                 globalPanelIndex,
+                                                 strips,
+                                                 bufferSize);
+
+    expect(result[0].isCurrentPanel).toBe(false);
+    expect(result[1].isCurrentPanel).toBe(true);
+    expect(result[2].isCurrentPanel).toBe(false);
+  });
+
+  it("specifies the third panel as current when the global panel index is 2 and the buffer size is 2", function() {
+    const globalPanelIndex = 2;
+    const bufferSize = 2;
+
+    const result = panelsService.getPanelsToLoad(panelsMap,
+                                                 globalPanelIndex,
+                                                 strips,
+                                                 bufferSize);
+    expect(result[0].isCurrentPanel).toBe(false);
+    expect(result[1].isCurrentPanel).toBe(false);
+    expect(result[2].isCurrentPanel).toBe(true);
+    expect(result[3].isCurrentPanel).toBe(false);
+  });
+
+  it("specifies the first panel as current when the global panel index is 0", function() {
+    const globalPanelIndex = 0;
+    const bufferSize = 1;
+
+    const result = panelsService.getPanelsToLoad(panelsMap,
+                                                 globalPanelIndex,
+                                                 strips,
+                                                 bufferSize);
+    expect(result[0].isCurrentPanel).toBe(true);
+    expect(result[1].isCurrentPanel).toBe(false);
+  });
+
   it("returns the first 2 panels when the panel is the first overall and the buffer size is 1", function() {
     const panelIndex = 0;
     const stripIndex = 0;
     const strip = strips[stripIndex];
     const bufferSize = 1;
 
-    const result = panelsService.getPanelsToLoad(panelIndex,
-                                                 stripIndex,
-                                                 panelsMap,
+    const result = panelsService.getPanelsToLoad(panelsMap,
                                                  strip.startPanelIndex + panelIndex,
                                                  strips,
                                                  bufferSize);
@@ -64,9 +129,7 @@ describe("panels-service.getPanelsToLoad()", function() {
     const strip = strips[stripIndex];
     const bufferSize = 1;
 
-    const result = panelsService.getPanelsToLoad(panelIndex,
-                                                 stripIndex,
-                                                 panelsMap,
+    const result = panelsService.getPanelsToLoad(panelsMap,
                                                  strip.startPanelIndex + panelIndex,
                                                  strips,
                                                  bufferSize);
@@ -82,9 +145,7 @@ describe("panels-service.getPanelsToLoad()", function() {
     const strip = strips[stripIndex];
     const bufferSize = 1;
 
-    const result = panelsService.getPanelsToLoad(panelIndex,
-                                                 stripIndex,
-                                                 panelsMap,
+    const result = panelsService.getPanelsToLoad(panelsMap,
                                                  strip.startPanelIndex + panelIndex,
                                                  strips,
                                                  bufferSize);
@@ -299,10 +360,19 @@ describe("panels-service.createMaps()", function() {
     expect(result.panelsMap.length).toBe(3);
   });
   
+  it("returns an object with a 'urlNamesMap' property with a map of the url names to indexes of their first panel", function() {
+    const result = panelsService.createMaps(strips);
+    var startPanelGlobalIndex = 0;
+    strips.forEach(function(strip, i) {
+      expect(result.urlNamesMap[strip.urlName].startPanelGlobalIndex).toEqual(startPanelGlobalIndex);
+      startPanelGlobalIndex += strip.panels.length;
+    });
+  });
+  
   it("returns an object with a 'urlNamesMap' property with a map of the url names to their indexes in the strips array", function() {
     const result = panelsService.createMaps(strips);
     strips.forEach(function(strip, i) {
-      expect(result.urlNamesMap[strip.urlName]).toEqual(i);
+      expect(result.urlNamesMap[strip.urlName].stripIndex).toEqual(i);
     });
   });
   
