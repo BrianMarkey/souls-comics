@@ -14,7 +14,6 @@ Vue.use(VueTouch, { name: 'v-touch' });
 Vue.component('panel', Panel);
 
 function getPropsData(stripUrlName, panelNumber) {
-
   return {
     strips: data.strips,
     stripUrlName: stripUrlName || data.strips[0].urlName,

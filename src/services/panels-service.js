@@ -8,12 +8,11 @@ module.exports = {
   getPanelsToLoad: function(panelIndex,
                             stripIndex,
                             panelsMap,
-                            strip,
+                            globalPanelIndex,
                             stripsData,
                             bufferSize) {
     var panelsToLoad = [];
-    const globalPanelIndex = strip.startPanelIndex + panelIndex;
-
+    
     // Get the start index of the range of
     // panels to load.
     var panelsToLoadStartIndex = Math.max(0, globalPanelIndex - bufferSize);

@@ -3,7 +3,7 @@
     <h1>SOULS COMICS</h1>
     <div id="app">
       <div class="panels-container" v-bind:style="{ width: panelWidth + 'px'}">
-        <transition-group tag="ul" name="next-panel" v-bind:style="{ width : (panelWidth * 2) + 'px' }">
+        <transition-group tag="ul" v-bind:name="transitionDirection + '-panel'" v-bind:style="{ width : (panelWidth * 2) + 'px' }">
           <li v-for="panel in panels" v-show="panel.isCurrentPanel" v-bind:key="panel.key">
             <div class="currentListItem">
               <panel v-bind:panel="panel"></panel>
@@ -38,11 +38,13 @@
         // current area's list of items.
         currentStripIndex: 0,
         currentPanelIndexInStrip: 0,
+        currentGlobalPanelIndex: 0,
         panels: [],
         panelWidth: 720,
         panelBufferSize: 1,
         panelsMap: [],
-        stripsUrlNameMap: { }
+        stripsUrlNameMap: { },
+        transitionDirection: 'next'
       };
     },
     beforeMount: function () {
@@ -59,15 +61,22 @@
         this.setCurrentPanel(strip, stripIndex, panelIndex);
       },
       setCurrentPanel: function (strip, stripIndex, panelIndex) {
+        const nextGlobalPanelIndex = strip.startPanelIndex + panelIndex;
+
         var panelsToLoad = this.panelsService.getPanelsToLoad(panelIndex,
                                                               stripIndex,
                                                               this.panelsMap,
-                                                              strip,
+                                                              nextGlobalPanelIndex,
                                                               this.strips,
                                                               this.panelBufferSize);
+
+        this.transitionDirection = nextGlobalPanelIndex >= this.currentGlobalPanelIndex ?
+          'next' : 'previous';
+
         this.panels = panelsToLoad;
         this.currentStripIndex = stripIndex;
         this.currentPanelIndexInStrip = panelIndex;
+        this.currentGlobalPanelIndex = nextGlobalPanelIndex;
       },
       playCurrentVideo: function () {
         this.$refs.vids[this.currentPanelIndexInQueue].play();
@@ -178,9 +187,7 @@
   }
   .next-panel-leave-to  {
     margin-left: -720px;
-    opacity: 0;
   }
-
   .previous-panel-enter-active {
     margin-left: -720px;
     transition: margin-left 1s;
@@ -188,11 +195,7 @@
   .previous-panel-enter-to {
     margin-left: 0px;
   }
-
   .previous-panel-leave-active {
     transition: opacity 1s;
-  }
-  .previous-panel-leave-to {
-    opacity: 0;
   }
 </style>

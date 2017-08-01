@@ -22,7 +22,6 @@
       }
     },
     beforeMount: function () {
-      console.log(this.panel);
     }
   }
 </script>
