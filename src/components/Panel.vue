@@ -6,8 +6,8 @@
         poster=""
         class="panel-video"
         ref="vids"
-        v-bind:key="panel.index">
-        <source v-bind:src="panel.source" v-bind:data-i="panel.index" type="video/webm">
+        v-bind:key="panel.key">
+        <source v-bind:src="panel.source" v-bind:data-i="panel.key" type="video/webm">
   </video>
 </template>
 

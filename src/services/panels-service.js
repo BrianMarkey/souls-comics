@@ -21,16 +21,17 @@ module.exports = {
     // Get the end index of the range of
     // panels to load.
     var panelsToLoadEndIndex = Math.min(panelsMap.length - 1, globalPanelIndex + bufferSize);
-    if (this.panelIsLast(stripIndex, panelIndex, stripsData)) {
-      panelsToLoadStartIndex = panelsToLoadStartIndex -1;
-    }
+    // if (this.panelIsLast(stripIndex, panelIndex, stripsData)) {
+    //   panelsToLoadStartIndex = panelsToLoadStartIndex -1;
+    // }
 
     for (var i = panelsToLoadStartIndex; i <= panelsToLoadEndIndex; i++) {
       var panelMap = panelsMap[i];
       // Get the actual panel from the strip
       // and panel indexes in the panel map object
       const panelToLoad = stripsData[panelMap.stripIndex].panels[panelMap.panelIndex];
-      panelToLoad.index = i;
+      panelToLoad.isCurrentPanel = i === globalPanelIndex;
+      panelToLoad.key = i;
       panelsToLoad.push(panelToLoad);
     }
 

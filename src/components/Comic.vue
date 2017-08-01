@@ -3,13 +3,13 @@
     <h1>SOULS COMICS</h1>
     <div id="app">
       <div class="panels-container">
-          <ul ref="panels" v-bind:style="{ marginLeft: panelsLeftOffset + 'px', width: panels.length * panelWidth + 'px'}">
-            <li v-for="panel in panels">
-              <div class="currentListItem">
-                <panel v-bind:panel="panel"></panel>
-              </div>
-            </li>
-          </ul>
+        <transition-group tag="ul" name="fade">
+          <li v-for="panel in panels" v-show="panel.isCurrentPanel" v-bind:key="panel.key">
+            <div class="currentListItem">
+              <panel v-bind:panel="panel"></panel>
+            </div>
+          </li>
+        </transition-group>
       </div>
       <div class="controls">
         <router-link v-bind:to="previousPanelPath"
@@ -42,7 +42,8 @@
         panelWidth: 720,
         panelBufferSize: 1,
         panelsMap: [],
-        stripsUrlNameMap: { }
+        stripsUrlNameMap: { },
+        meow: true
       };
     },
     beforeMount: function () {
@@ -172,5 +173,12 @@
   @font-face {
     font-family: "dks";
     src: url(OptimusPrincepsSemiBold.ttf) format("truetype");
+  }
+
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity 3s
+  }
+  .fade-enter, .fade-leave-to  {
+    opacity: 0
   }
 </style>
