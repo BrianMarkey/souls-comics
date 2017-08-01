@@ -60,7 +60,6 @@
     },
     methods: {
       setTransition: function (inProgress) {
-        console.log('setting ' + inProgress);
         this.transitionInProgress = inProgress;
       },
       loadFromRouteValues: function() {
@@ -68,8 +67,6 @@
         const strip = this.strips[stripIndex];
         const panelIndex = this.panelsService.getPanelIndexFromPanelNumber(strip, this.panelNumber);
         this.setCurrentPanel(strip, stripIndex, panelIndex);
-        
-        console.log(this.transitionInProgress);
       },
       setCurrentPanel: function (strip, stripIndex, panelIndex) {
         const nextGlobalPanelIndex = strip.startPanelIndex + panelIndex;

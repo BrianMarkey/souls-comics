@@ -26,9 +26,12 @@ module.exports = {
       // Get the actual panel from the strip
       // and panel indexes in the panel map object
       const panelToLoad = stripsData[panelMap.stripIndex].panels[panelMap.panelIndex];
-      panelToLoad.isCurrentPanel = i === globalPanelIndex;
-      panelToLoad.key = i;
-      panelsToLoad.push(panelToLoad);
+      // Clone the panel because we will be adding properties
+      // and we don't want to change the base data.
+      const panelToLoadClone = JSON.parse(JSON.stringify(panelToLoad));
+      panelToLoadClone.isCurrentPanel = i === globalPanelIndex;
+      panelToLoadClone.key = i;
+      panelsToLoad.push(panelToLoadClone);
     }
 
     return panelsToLoad;
@@ -72,7 +75,6 @@ module.exports = {
       strip.startPanelIndex = panelLoopIndex;
       for (var j = 0; j < strip.panels.length; j++) {
         panelsMap.push({stripIndex: i, panelIndex: j});
-        strip.panels[j].panelSort = panelLoopIndex;
         panelLoopIndex++;
       }
     }
