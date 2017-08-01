@@ -20,9 +20,6 @@ module.exports = {
     // Get the end index of the range of
     // panels to load.
     var panelsToLoadEndIndex = Math.min(panelsMap.length - 1, globalPanelIndex + bufferSize);
-    // if (this.panelIsLast(stripIndex, panelIndex, stripsData)) {
-    //   panelsToLoadStartIndex = panelsToLoadStartIndex -1;
-    // }
 
     for (var i = panelsToLoadStartIndex; i <= panelsToLoadEndIndex; i++) {
       var panelMap = panelsMap[i];

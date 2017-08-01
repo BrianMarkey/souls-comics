@@ -50,7 +50,7 @@ describe("panels-service.getPanelsToLoad()", function() {
     const result = panelsService.getPanelsToLoad(panelIndex,
                                                  stripIndex,
                                                  panelsMap,
-                                                 strip,
+                                                 strip.startPanelIndex + panelIndex,
                                                  strips,
                                                  bufferSize);
     expect(result.length).toBe(2);
@@ -67,7 +67,7 @@ describe("panels-service.getPanelsToLoad()", function() {
     const result = panelsService.getPanelsToLoad(panelIndex,
                                                  stripIndex,
                                                  panelsMap,
-                                                 strip,
+                                                 strip.startPanelIndex + panelIndex,
                                                  strips,
                                                  bufferSize);
     expect(result.length).toBe(3);
@@ -78,14 +78,14 @@ describe("panels-service.getPanelsToLoad()", function() {
 
   it("returns the last 2 panels when the panel is the last overall panel and the buffer size is 1", function() {
     const panelIndex = 1;
-    const stripIndex = 0;
+    const stripIndex = 1;
     const strip = strips[stripIndex];
     const bufferSize = 1;
 
     const result = panelsService.getPanelsToLoad(panelIndex,
                                                  stripIndex,
                                                  panelsMap,
-                                                 strip,
+                                                 strip.startPanelIndex + panelIndex,
                                                  strips,
                                                  bufferSize);
     expect(result.length).toBe(2);
