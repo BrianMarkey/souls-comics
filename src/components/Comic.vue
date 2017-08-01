@@ -3,7 +3,7 @@
     <h1>SOULS COMICS</h1>
     <div id="app">
       <div class="panels-container">
-        <transition-group tag="ul" name="fade">
+        <transition-group tag="ul" name="next-panel">
           <li v-for="panel in panels" v-show="panel.isCurrentPanel" v-bind:key="panel.key">
             <div class="currentListItem">
               <panel v-bind:panel="panel"></panel>
@@ -42,8 +42,7 @@
         panelWidth: 720,
         panelBufferSize: 1,
         panelsMap: [],
-        stripsUrlNameMap: { },
-        meow: true
+        stripsUrlNameMap: { }
       };
     },
     beforeMount: function () {
@@ -151,6 +150,7 @@
     padding: 0px;
     margin: 0px;
     text-align: left;
+    width: 2160px;
     li {
       list-style: none;
       display: inline-block;
@@ -175,10 +175,26 @@
     src: url(OptimusPrincepsSemiBold.ttf) format("truetype");
   }
 
-  .fade-enter-active, .fade-leave-active {
-    transition: opacity 3s
+  .next-panel-leave-active {
+    transition: margin-left 1s, opacity 1s;
   }
-  .fade-enter, .fade-leave-to  {
-    opacity: 0
+  .next-panel-leave-to  {
+    margin-left: -720px;
+    opacity: 0;
+  }
+
+  .previous-panel-enter-active {
+    margin-left: -720px;
+    transition: margin-left 1s;
+  }
+  .previous-panel-enter-to {
+    margin-left: 0px;
+  }
+
+  .previous-panel-leave-active {
+    transition: opacity 1s;
+  }
+  .previous-panel-leave-to {
+    opacity: 0;
   }
 </style>
