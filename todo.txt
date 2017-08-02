@@ -1,8 +1,7 @@
-Fix broken unit tests
-Write more unit tests
+
 Lint
 Cleanup
-Url rewrites?
+Componennt Tests
 Style the desktop nav
 Design mobile nav
 Think about bigger panels for desktop

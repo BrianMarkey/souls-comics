@@ -38,7 +38,7 @@ const routes = [
     component: Comic,
     props: (route) => (getPropsData())
   }
-]
+];
 
 const router = new VueRouter({
   routes,
@@ -48,4 +48,4 @@ const router = new VueRouter({
 const app = new Vue({
   el: '#app',
   router
-})
+});

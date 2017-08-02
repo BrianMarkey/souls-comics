@@ -1,4 +1,4 @@
-let utilsService = require('src/services/utils-service.js');
+const utilsService = require('src/services/utils-service.js');
 /// Get the panels which should be loaded
 /// for a panel of a given index, including
 /// the panel with the matching index, and
@@ -9,18 +9,18 @@ module.exports = {
                             globalPanelIndex,
                             stripsData,
                             bufferSize) {
-    var panelsToLoad = [];
+    const panelsToLoad = [];
     
     // Get the start index of the range of
     // panels to load.
-    var panelsToLoadStartIndex = Math.max(0, globalPanelIndex - bufferSize);
+    const panelsToLoadStartIndex = Math.max(0, globalPanelIndex - bufferSize);
 
     // Get the end index of the range of
     // panels to load.
-    var panelsToLoadEndIndex = Math.min(panelsMap.length - 1, globalPanelIndex + bufferSize);
+    const panelsToLoadEndIndex = Math.min(panelsMap.length - 1, globalPanelIndex + bufferSize);
 
     for (var i = panelsToLoadStartIndex; i <= panelsToLoadEndIndex; i++) {
-      var panelMap = panelsMap[i];
+      const panelMap = panelsMap[i];
       // Get the actual panel from the strip
       // and panel indexes in the panel map object
       const panelToLoad = stripsData[panelMap.stripIndex].panels[panelMap.panelIndex];
@@ -37,7 +37,8 @@ module.exports = {
   /// Determines if a given panel index is the
   /// first in the overall list of panels
   panelIsLast(stripIndex, panelIndexInStrip, stripsData) {
-    var strip = stripsData[stripIndex];
+    const strip = stripsData[stripIndex];
+
     return stripIndex === stripsData.length - 1 &&
           panelIndexInStrip === strip.panels.length - 1;
   },
@@ -78,6 +79,7 @@ module.exports = {
         panelLoopIndex++;
       }
     }
+    
     return { panelsMap, urlNamesMap };
   },
   /// Get the url path to the next panel in the 
@@ -89,11 +91,12 @@ module.exports = {
     if (currentPanelIsLast) {
       return '';
     }
-    var currentStrip = strips[currentStripIndex];
+    const currentStrip = strips[currentStripIndex];
     if (currentPanelIndexInStrip === currentStrip.panels.length - 1) {
-      return '/' + strips[currentStripIndex + 1].urlName + '/panels/1'
+      return `/${strips[currentStripIndex + 1].urlName}/panels/1`;
     }
-    return '/' + currentStrip.urlName + '/panels/' + (currentPanelIndexInStrip + 2);
+
+    return `/${currentStrip.urlName}/panels/${currentPanelIndexInStrip + 2}`;
   },
   /// Get the url path to the previous panel in the 
   /// list, if there is one. Returns an empty string if there is not.
@@ -107,8 +110,9 @@ module.exports = {
     var currentStrip = strips[currentStripIndex];
     if (currentPanelIndexInStrip === 0) {
       const previousStrip = strips[currentStripIndex - 1];
-      return '/' + previousStrip.urlName + '/panels/' + previousStrip.panels.length;
+      return `/${previousStrip.urlName}/panels/${previousStrip.panels.length}`;
     }
-    return '/' + currentStrip.urlName + '/panels/' + (currentPanelIndexInStrip);
+    
+    return `/${currentStrip.urlName}/panels/${currentPanelIndexInStrip}`;
   }
 }

@@ -1,4 +1,4 @@
-import panelsService from 'src/services/panels-service.js'
+import panelsService from 'src/services/panels-service.js';
 
 var strips = [
   {
