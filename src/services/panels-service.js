@@ -1,10 +1,11 @@
-const utilsService = require('src/services/utils-service.js');
-/// Get the panels which should be loaded
-/// for a panel of a given index, including
-/// the panel with the matching index, and
-/// the buffering panels.
-/// todo: possibly add parameter validation.
+import utilsService from 'src/services/utils-service.js';
+
 export default {
+  /// Get the panels which should be loaded
+  /// for a panel of a given index, including
+  /// the panel with the matching index, and
+  /// the buffering panels.
+  /// todo: possibly add parameter validation.
   getPanelsToLoad: function(
     panelsMap,
     globalPanelIndex,

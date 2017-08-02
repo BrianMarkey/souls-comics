@@ -22,7 +22,6 @@
         <router-link v-bind:to="nextPanelPath"
                      v-bind:style="{ visibility: currentPanelIsLast ? 'hidden' : 'inherit' }">Next</router-link>
       </div>
-      <a v-on:click="requestFullScreen"><h1>REQUEST FULL SCREEN</h1></a>
     </div>
   </center>
 </template>
@@ -154,14 +153,14 @@
     }
   }
   body {
-    background: ##f2efcf;
-    background-image: url("bg1.png"), url("bg2.png");
+    background: ##a1716d;
+    background-image: url("cherrybg-1.png"), url("cherrybg-2.png");
     background-repeat: repeat-x, repeat;
   }
   h1 {
     font-size: 80px;
-    color: #686666;
-    text-shadow: 3px 3px #000000;
+    color: #c7c7c7;
+    text-shadow: 3px 3px #7d634b;
     font-family: "dks";
   }
   ::-webkit-media-controls {

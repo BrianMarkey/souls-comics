@@ -1,10 +1,9 @@
 
-Lint
-Cleanup
-Componennt Tests
 Style the desktop nav
+Redo the background
 Design mobile nav
 Think about bigger panels for desktop
 Figure out full screen for mobile
 Figure out full screen for desktop
-Animations
+Switch to js animations
+Componennt Tests
