@@ -4,7 +4,7 @@ const utilsService = require('src/services/utils-service.js');
 /// the panel with the matching index, and
 /// the buffering panels.
 /// todo: possibly add parameter validation.
-module.exports = {
+export default {
   getPanelsToLoad: function(panelsMap,
                             globalPanelIndex,
                             stripsData,
@@ -79,7 +79,7 @@ module.exports = {
         panelLoopIndex++;
       }
     }
-    
+
     return { panelsMap, urlNamesMap };
   },
   /// Get the url path to the next panel in the 

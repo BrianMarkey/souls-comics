@@ -1,4 +1,3 @@
-
 <template>
   <video v-if="panel"
         playsinline="true"
@@ -10,7 +9,6 @@
         <source v-bind:src="panel.source" v-bind:data-i="panel.key" type="video/webm">
   </video>
 </template>
-
 
 <script>
   export default {
@@ -25,7 +23,6 @@
     }
   }
 </script>
-
 
 <style lang="less">
   .panel-video {

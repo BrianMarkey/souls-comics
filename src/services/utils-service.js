@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   /// Specifies if a value is an integer
   /// including string representations of integers.
   isInt: function(value) {
@@ -8,4 +8,4 @@ module.exports = {
     var x = parseFloat(value);
     return (x | 0) === x;
   }
-}
+};

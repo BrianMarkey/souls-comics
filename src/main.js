@@ -3,9 +3,9 @@ import VueRouter from 'vue-router';
 import Comic from 'src/components/Comic.vue';
 import Panel from 'src/components/Panel.vue';
 import data from 'static/strip-data.json';
-import panelsService from 'src/services/panels-service.js'
+import panelsService from 'src/services/panels-service.js';
 
-require.context("static/", true);
+require.context('static/', true);
 
 const VueTouch = require('vue-touch');
 
@@ -36,7 +36,7 @@ const routes = [
   {
     path: '/',
     component: Comic,
-    props: (route) => (getPropsData())
+    props: () => (getPropsData())
   }
 ];
 
@@ -45,7 +45,7 @@ const router = new VueRouter({
   mode: 'history'
 });
 
-const app = new Vue({
+new Vue({
   el: '#app',
   router
 });
