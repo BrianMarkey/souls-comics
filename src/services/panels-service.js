@@ -80,6 +80,8 @@ module.exports = {
     }
     return { panelsMap, urlNamesMap };
   },
+  /// Get the url path to the next panel in the 
+  /// list, if there is one. Returns an empty string if there is not.
   getNextPanelPath: function(currentPanelIsLast,
                              currentStripIndex,
                              currentPanelIndexInStrip,
@@ -93,6 +95,8 @@ module.exports = {
     }
     return '/' + currentStrip.urlName + '/panels/' + (currentPanelIndexInStrip + 2);
   },
+  /// Get the url path to the previous panel in the 
+  /// list, if there is one. Returns an empty string if there is not.
   getPreviousPanelPath: function(currentPanelIsFirst,
                                  currentStripIndex,
                                  currentPanelIndexInStrip,

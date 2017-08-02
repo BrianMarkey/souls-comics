@@ -118,6 +118,7 @@
                                                        this.currentStripIndex,
                                                        this.currentPanelIndexInStrip,
                                                        this.strips);
+      },
     },
     watch: {
     '$route.params': function (params) {
