@@ -131,8 +131,14 @@
 
 <style lang="less">
   a {
+    font-family: "dks";
+    font-size: 2em;
     cursor: pointer;
+    &:visited {
+      color: black;
+    }
   }
+
   .disabled a {
     pointer-events: none;
   }
