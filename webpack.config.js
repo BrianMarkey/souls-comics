@@ -38,6 +38,15 @@ module.exports = {
       {
         test: /\.json$/, 
         loader: 'json-loader'
+      },
+      {
+        test: /\.js$/,
+        loader: 'eslint-loader',
+        exclude: /node_modules/,
+        options: {
+          failOnError: true,
+          failOnWarning: false,
+        }
       }
     ]
   },

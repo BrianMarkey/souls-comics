@@ -5,10 +5,11 @@ const utilsService = require('src/services/utils-service.js');
 /// the buffering panels.
 /// todo: possibly add parameter validation.
 export default {
-  getPanelsToLoad: function(panelsMap,
-                            globalPanelIndex,
-                            stripsData,
-                            bufferSize) {
+  getPanelsToLoad: function(
+    panelsMap,
+    globalPanelIndex,
+    stripsData,
+    bufferSize) {
     const panelsToLoad = [];
     
     // Get the start index of the range of
@@ -84,10 +85,11 @@ export default {
   },
   /// Get the url path to the next panel in the 
   /// list, if there is one. Returns an empty string if there is not.
-  getNextPanelPath: function(currentPanelIsLast,
-                             currentStripIndex,
-                             currentPanelIndexInStrip,
-                             strips) {
+  getNextPanelPath: function(
+    currentPanelIsLast,
+    currentStripIndex,
+    currentPanelIndexInStrip,
+    strips) {
     if (currentPanelIsLast) {
       return '';
     }
@@ -100,10 +102,11 @@ export default {
   },
   /// Get the url path to the previous panel in the 
   /// list, if there is one. Returns an empty string if there is not.
-  getPreviousPanelPath: function(currentPanelIsFirst,
-                                 currentStripIndex,
-                                 currentPanelIndexInStrip,
-                                 strips) {
+  getPreviousPanelPath: function(
+    currentPanelIsFirst,
+    currentStripIndex,
+    currentPanelIndexInStrip,
+    strips) {
     if (currentPanelIsFirst) {
       return '';
     }
@@ -115,4 +118,4 @@ export default {
     
     return `/${currentStrip.urlName}/panels/${currentPanelIndexInStrip}`;
   }
-}
+};
