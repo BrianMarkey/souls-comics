@@ -72,7 +72,9 @@
         const nextGlobalPanelIndex = stripMap.startPanelGlobalIndex + panelIndex;
         this.setCurrentPanel(nextGlobalPanelIndex, stripMap.stripIndex, panelIndex);
       },
-      setCurrentPanel: function (nextGlobalPanelIndex, stripIndex, panelIndex) {
+      setCurrentPanel: function (nextGlobalPanelIndex,
+                                 stripIndex,
+                                 panelIndex) {
         var panelsToLoad = this.panelsService.getPanelsToLoad(this.panelsMap,
                                                               nextGlobalPanelIndex,
                                                               this.strips,
@@ -171,19 +173,19 @@
   }
 
   .next-panel-leave-active {
-    transition: margin-left 1s, opacity 1s;
+    transition: margin-left .5s, opacity .5s;
   }
   .next-panel-leave-to  {
     margin-left: -720px;
   }
   .previous-panel-enter-active {
     margin-left: -720px;
-    transition: margin-left 1s;
+    transition: margin-left .5s;
   }
   .previous-panel-enter-to {
     margin-left: 0px;
   }
   .previous-panel-leave-active {
-    transition: opacity 1s;
+    transition: opacity .5s;
   }
 </style>
