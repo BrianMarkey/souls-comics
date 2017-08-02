@@ -92,5 +92,19 @@ module.exports = {
       return '/' + strips[currentStripIndex + 1].urlName + '/panels/1'
     }
     return '/' + currentStrip.urlName + '/panels/' + (currentPanelIndexInStrip + 2);
+  },
+  getPreviousPanelPath: function(currentPanelIsFirst,
+                                 currentStripIndex,
+                                 currentPanelIndexInStrip,
+                                 strips) {
+    if (currentPanelIsFirst) {
+      return '';
+    }
+    var currentStrip = strips[currentStripIndex];
+    if (currentPanelIndexInStrip === 0) {
+      const previousStrip = strips[currentStripIndex - 1];
+      return '/' + previousStrip.urlName + '/panels/' + previousStrip.panels.length;
+    }
+    return '/' + currentStrip.urlName + '/panels/' + (currentPanelIndexInStrip);
   }
 }

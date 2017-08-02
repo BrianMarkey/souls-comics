@@ -33,6 +33,49 @@ var strips = [
   }
 ];
 
+describe("panels-service.getPreviousPanelPath()", function() {
+  it("returns an empty string when the panel is the first", function() {
+    const result = panelsService.getPreviousPanelPath(true,
+                                                      0,
+                                                      0,
+                                                      strips);
+                                                  
+    expect(result).toBe('');
+  });
+  
+  it("returns the correct route when the current panel is the last overall", function() {
+    const currentPanelIsFirst = false;
+    const currentStripIndex = 1;
+    const currentPanelIndexInStrip = 1;
+    const urlName = strips[currentStripIndex].urlName;
+    const panelNumber = 1;
+    const expectedRoute = '/' + urlName + '/panels/' + panelNumber;
+
+    const result = panelsService.getPreviousPanelPath(currentPanelIsFirst,
+                                                      currentStripIndex,
+                                                      currentPanelIndexInStrip,
+                                                      strips);
+                                                  
+    expect(result).toBe(expectedRoute);
+  });
+  
+  it("returns the correct route when the current panel is the first in the current strip", function() {
+    const currentPanelIsFirst = false;
+    const currentStripIndex = 1;
+    const currentPanelIndexInStrip = 0;
+    const urlName = strips[currentStripIndex - 1].urlName;
+    const panelNumber = 2;
+    const expectedRoute = '/' + urlName + '/panels/' + panelNumber;
+
+    const result = panelsService.getPreviousPanelPath(currentPanelIsFirst,
+                                                      currentStripIndex,
+                                                      currentPanelIndexInStrip,
+                                                      strips);
+                                                  
+    expect(result).toBe(expectedRoute);
+  });
+});
+
 describe("panels-service.getNextPanelPath()", function() {
   it("returns an empty string when the panel is the last", function() {
     const result = panelsService.getNextPanelPath(true,
