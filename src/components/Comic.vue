@@ -1,7 +1,6 @@
 <template>
-  <center>
-    <h1>SOULS COMICS</h1>
     <div id="app">
+      <h1>SOULS COMICS</h1>
       <div class="panels-container" v-bind:style="{ width: panelWidth + 'px'}">
         <transition-group tag="ul"
                           v-bind:name="transitionDirection + '-panel'"
@@ -14,16 +13,21 @@
             </div>
           </li>
         </transition-group>
-      </div>
       <div class="controls" v-bind:class="transitionInProgress ? 'disabled' : ''">
         <router-link v-bind:to="previousPanelPath"
-                     v-bind:style="{ visibility: currentPanelIsFirst ? 'hidden' : 'inherit' }">Previous</router-link>
+                     v-bind:style="{ visibility: currentPanelIsFirst ? 'hidden' : 'inherit' }">
+          <span>Previous</span>
+          <img src="./sword.png"/>
+        </router-link>
         <a v-on:click="playCurrentVideo()">Play</a>
         <router-link v-bind:to="nextPanelPath"
-                     v-bind:style="{ visibility: currentPanelIsLast ? 'hidden' : 'inherit' }">Next</router-link>
+                     v-bind:style="{ visibility: currentPanelIsLast ? 'hidden' : 'inherit' }">
+          <span>Next</span>
+          <img class="flipped" src="./sword.png"/>
+        </router-link>
+      </div>
       </div>
     </div>
-  </center>
 </template>
 
 <script>
@@ -130,12 +134,33 @@
 </script>
 
 <style lang="less">
+  #app {
+    text-align: center;
+  }
+  .flipped {
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
+  }
   a {
     font-family: "dks";
     font-size: 2em;
     cursor: pointer;
     &:visited {
       color: black;
+    }
+  }
+
+  .controls {
+    display: flex;
+    justify-content: space-around;
+    a {
+      span {
+        display: block;
+      }
     }
   }
 
