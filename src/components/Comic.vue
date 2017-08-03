@@ -176,6 +176,7 @@
     border-image: url(bg-border.png) 47 47 47 47 repeat;
   }
   .panels-container {
+    border: 4px solid #4f3c3e;
     overflow: hidden;
     display: inline-block;
   }
