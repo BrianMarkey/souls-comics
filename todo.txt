@@ -1,8 +1,8 @@
 
 Design mobile nav
-Think about bigger panels for desktop
 Figure out full screen for mobile
 Figure out full screen for desktop
 Switch to js animations
 Component Tests
+Think about bigger panels for desktop
 update favicon
