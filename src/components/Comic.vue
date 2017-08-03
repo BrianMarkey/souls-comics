@@ -10,7 +10,17 @@
                             v-on:after-leave="setTransition(false)">
             <li v-for="panel in panels" v-show="panel.isCurrentPanel" v-bind:key="panel.key">
               <div class="currentListItem">
-                <panel v-bind:panel="panel"></panel>
+                <video v-if="panel.type === 'video'"
+                      playsinline="true"
+                      webkit-playsinline=""
+                      poster=""
+                      class="panel-video"
+                      ref="vid"
+                      v-bind:key="panel.key"
+                      v-bind:class="panel.isCurrentPanel ? 'active' : ''">
+                      <source v-bind:src="panel.source" type="video/webm">
+                </video>
+                <img v-if="panel.type === 'image'" v-bind:src="panel.source" />
               </div>
             </li>
           </transition-group>
@@ -94,7 +104,10 @@
         this.currentGlobalPanelIndex = nextGlobalPanelIndex;
       },
       playCurrentVideo: function () {
-
+        var currentVideo = this.$el.querySelector('.panels-container .active');
+        if (currentVideo) {
+          currentVideo.play();
+        }
       },
       requestFullScreen: function () {
         var firstVid = document.querySelector('video');
@@ -164,6 +177,10 @@
         display: block;
       }
     }
+  }
+  .panel-video {
+    width: 100%;
+    max-width: 720px;
   }
 
   .disabled a {

@@ -5,7 +5,7 @@
           webkit-playsinline=""
           poster=""
           class="panel-video"
-          ref="vids"
+          ref="vid"
           v-bind:key="panel.key">
           <source v-bind:src="panel.source" v-bind:data-i="panel.key" type="video/webm">
     </video>
