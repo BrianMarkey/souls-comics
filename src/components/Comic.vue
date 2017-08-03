@@ -1,31 +1,33 @@
 <template>
     <div id="app">
       <h1>SOULS COMICS</h1>
-      <div class="panels-container" v-bind:style="{ width: panelWidth + 'px'}">
-        <transition-group tag="ul"
-                          v-bind:name="transitionDirection + '-panel'"
-                          v-bind:style="{ width : (panelWidth * 2) + 'px' }"
-                          v-on:before-leave="setTransition(true)"
-                          v-on:after-leave="setTransition(false)">
-          <li v-for="panel in panels" v-show="panel.isCurrentPanel" v-bind:key="panel.key">
-            <div class="currentListItem">
-              <panel v-bind:panel="panel"></panel>
-            </div>
-          </li>
-        </transition-group>
-      <div class="controls" v-bind:class="transitionInProgress ? 'disabled' : ''">
-        <router-link v-bind:to="previousPanelPath"
-                     v-bind:style="{ visibility: currentPanelIsFirst ? 'hidden' : 'inherit' }">
-          <span>Previous</span>
-          <img src="./sword.png"/>
-        </router-link>
-        <a v-on:click="playCurrentVideo()">Play</a>
-        <router-link v-bind:to="nextPanelPath"
-                     v-bind:style="{ visibility: currentPanelIsLast ? 'hidden' : 'inherit' }">
-          <span>Next</span>
-          <img class="flipped" src="./sword.png"/>
-        </router-link>
-      </div>
+      <div class="outer-panels-container">
+        <div class="panels-container" v-bind:style="{ width: panelWidth + 'px'}">
+          <transition-group tag="ul"
+                            v-bind:name="transitionDirection + '-panel'"
+                            v-bind:style="{ width : (panelWidth * 2) + 'px' }"
+                            v-on:before-leave="setTransition(true)"
+                            v-on:after-leave="setTransition(false)">
+            <li v-for="panel in panels" v-show="panel.isCurrentPanel" v-bind:key="panel.key">
+              <div class="currentListItem">
+                <panel v-bind:panel="panel"></panel>
+              </div>
+            </li>
+          </transition-group>
+          <div class="controls" v-bind:class="transitionInProgress ? 'disabled' : ''">
+            <router-link v-bind:to="previousPanelPath"
+                        v-bind:style="{ visibility: currentPanelIsFirst ? 'hidden' : 'inherit' }">
+              <span>Previous</span>
+              <img src="./sword.png"/>
+            </router-link>
+            <a v-on:click="playCurrentVideo()">Play</a>
+            <router-link v-bind:to="nextPanelPath"
+                        v-bind:style="{ visibility: currentPanelIsLast ? 'hidden' : 'inherit' }">
+              <span>Next</span>
+              <img class="flipped" src="./sword.png"/>
+            </router-link>
+          </div>
+        </div>
       </div>
     </div>
 </template>
@@ -150,7 +152,7 @@
     font-size: 2em;
     cursor: pointer;
     &:visited {
-      color: black;
+      color: #c7c7c7;
     }
   }
 
@@ -166,6 +168,12 @@
 
   .disabled a {
     pointer-events: none;
+  }
+  .outer-panels-container{
+    background-image: url("panel-bg-texture.png");
+    border: 47px solid;
+    display: inline-block;
+    border-image: url(bg-border.png) 47 47 47 47 repeat;
   }
   .panels-container {
     overflow: hidden;
@@ -187,10 +195,10 @@
     background: ##a1716d;
     background-image: url("cherrybg-1.png"), url("cherrybg-2.png");
     background-repeat: repeat-x, repeat;
+    color: #c7c7c7;
   }
   h1 {
     font-size: 80px;
-    color: #c7c7c7;
     text-shadow: 3px 3px #7d634b;
     font-family: "dks";
   }
