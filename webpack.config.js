@@ -1,13 +1,20 @@
-var path = require('path')
-var webpack = require('webpack')
+var path = require('path');
+var webpack = require('webpack');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: './src/main.js',
   output: {
     path: path.resolve(__dirname, './dist'),
-    publicPath: '/dist/',
+    publicPath: '/',
     filename: 'build.js'
   },
+  plugins: [
+    new HtmlWebpackPlugin({  // Also generate a test.html
+      title: 'Souls Comics',
+      template: './src/my-index.ejs'
+    })
+  ],
   module: {
     rules: [
       {
