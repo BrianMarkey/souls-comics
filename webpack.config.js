@@ -12,7 +12,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({  // Also generate a test.html
       title: 'Souls Comics',
-      template: './src/my-index.ejs'
+      template: './src/index.html.ejs'
     })
   ],
   module: {

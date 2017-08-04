@@ -28,13 +28,13 @@
             <router-link v-bind:to="previousPanelPath"
                         v-bind:style="{ visibility: currentPanelIsFirst ? 'hidden' : 'inherit' }">
               <span>Previous</span>
-              <img src="/static/sword.png"/>
+              <img src="/img/sword.png"/>
             </router-link>
             <a v-on:click="playCurrentVideo()">Play</a>
             <router-link v-bind:to="nextPanelPath"
                         v-bind:style="{ visibility: currentPanelIsLast ? 'hidden' : 'inherit' }">
               <span>Next</span>
-              <img class="flipped" src="/static/sword.png"/>
+              <img class="flipped" src="/img/sword.png"/>
             </router-link>
           </div>
         </div>
@@ -187,10 +187,10 @@
     pointer-events: none;
   }
   .outer-panels-container{
-    background-image: url("/static/panel-bg-texture.png");
+    background-image: url("/img/panel-bg-texture.png");
     border: 47px solid;
     display: inline-block;
-    border-image: url(/static/bg-border.png) 47 47 47 47 repeat;
+    border-image: url(/img/bg-border.png) 47 47 47 47 repeat;
   }
   .panels-container {
     border: 4px solid #4f3c3e;
@@ -211,7 +211,7 @@
   }
   body {
     background: ##a1716d;
-    background-image: url("/static/cherrybg-1.png"), url("/static/cherrybg-2.png");
+    background-image: url("/img/cherrybg-1.png"), url("/img/cherrybg-2.png");
     background-repeat: repeat-x, repeat;
     color: #c7c7c7;
   }
@@ -225,7 +225,7 @@
   }
   @font-face {
     font-family: "dks";
-    src: url(/static/OptimusPrincepsSemiBold.ttf) format("truetype");
+    src: url(/fonts/OptimusPrincepsSemiBold.ttf) format("truetype");
   }
 
   .next-panel-leave-active {
