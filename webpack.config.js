@@ -25,15 +25,12 @@ module.exports = {
         exclude: /node_modules/
       },
       {
-        test: /\.(png|jpg|gif|svg|ttf|ico|xml|html)$/,
-        loader: 'file-loader',
-        options: {
-          name: '[name].[ext]?[hash]'
-        }
+        test: /\.(png|jpg|gif|svg|ico|xml)$/,
+        loader: 'file-loader?name=./img/[name].[ext]?[hash]'
       },
       {
-        test: /\.css$/,
-        loader: 'style-loader!css-loader'
+        test: /\.(ttf)$/,
+        loader: 'file-loader?name=./fonts/[name].[ext]?[hash]'
       },
       {
         test: /\.json$/, 
