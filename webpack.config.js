@@ -1,6 +1,7 @@
-var path = require('path');
-var webpack = require('webpack');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+let path = require('path');
+let webpack = require('webpack');
+let HtmlWebpackPlugin = require('html-webpack-plugin');
+let FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
 module.exports = {
   entry: './src/main.js',
@@ -13,6 +14,10 @@ module.exports = {
     new HtmlWebpackPlugin({  // Also generate a test.html
       title: 'Souls Comics',
       template: './src/index.html.ejs'
+    }),
+    new FaviconsWebpackPlugin({
+      logo: './static/favicon.png',
+      prefix: '/img/icons-[hash]/'
     })
   ],
   module: {
@@ -31,14 +36,6 @@ module.exports = {
         loader: 'babel-loader',
         exclude: /node_modules/
       },
-      // {
-      //   test: /\.(png|jpg|gif|svg|ico|xml)$/,
-      //   loader: 'file-loader?name=./img/[hash].[ext]'
-      // },
-      // {
-      //   test: /\.(ttf)$/,
-      //   loader: 'file-loader?name=./fonts/[hash].[ext]'
-      // },
       {
         test: /\.json$/, 
         loader: 'json-loader'
