@@ -31,14 +31,14 @@ module.exports = {
         loader: 'babel-loader',
         exclude: /node_modules/
       },
-      {
-        test: /\.(png|jpg|gif|svg|ico|xml)$/,
-        loader: 'file-loader?name=./img/[name].[ext]?[hash]'
-      },
-      {
-        test: /\.(ttf)$/,
-        loader: 'file-loader?name=./fonts/[name].[ext]?[hash]'
-      },
+      // {
+      //   test: /\.(png|jpg|gif|svg|ico|xml)$/,
+      //   loader: 'file-loader?name=./img/[hash].[ext]'
+      // },
+      // {
+      //   test: /\.(ttf)$/,
+      //   loader: 'file-loader?name=./fonts/[hash].[ext]'
+      // },
       {
         test: /\.json$/, 
         loader: 'json-loader'
