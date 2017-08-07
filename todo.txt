@@ -1,8 +1,8 @@
 
 
+Switch to js animations
+Component Tests
 Design mobile nav
 Figure out full screen for mobile
 Figure out full screen for desktop
-Switch to js animations
-Component Tests
 Think about bigger panels for desktop
