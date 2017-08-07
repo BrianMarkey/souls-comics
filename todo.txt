@@ -1,6 +1,4 @@
 
-Update favicon
-Production build
 
 Design mobile nav
 Figure out full screen for mobile

@@ -11,10 +11,14 @@ module.exports = {
     filename: 'build.js'
   },
   plugins: [
-    new HtmlWebpackPlugin({  // Also generate a test.html
+    // Generates an index.heml with the output of the
+    // build linked in it.
+    new HtmlWebpackPlugin({
       title: 'Souls Comics',
       template: './src/index.html.ejs'
     }),
+    // Creates various favicon sizes and links them
+    // in the generated index.html.
     new FaviconsWebpackPlugin({
       logo: './static/favicon.png',
       prefix: 'img/icons-[hash]/'
@@ -44,6 +48,7 @@ module.exports = {
         test: /\.json$/, 
         loader: 'json-loader'
       },
+      // Run eslint for dev and prod builds.
       {
         test: /\.js$/,
         loader: 'eslint-loader',
