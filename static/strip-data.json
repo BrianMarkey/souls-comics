@@ -5,10 +5,6 @@
       "urlName": "test-strip-one",
       "panels": [
         {
-          "type": "image",
-          "source": "http://darksouls3.wiki.fextralife.com/file/Dark-Souls-3/Ready%20Stance.jpg"
-        },
-        {
           "type": "video",
           "source": "https://giant.gfycat.com/FlimsySpottedAmericancrocodile.webm"
         },
