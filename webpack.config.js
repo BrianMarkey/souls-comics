@@ -17,7 +17,7 @@ module.exports = {
     }),
     new FaviconsWebpackPlugin({
       logo: './static/favicon.png',
-      prefix: '/img/icons-[hash]/'
+      prefix: 'img/icons-[hash]/'
     })
   ],
   module: {
@@ -35,6 +35,10 @@ module.exports = {
         test: /\.js$/,
         loader: 'babel-loader',
         exclude: /node_modules/
+      },
+      {
+        test: /\.(png|jpg|gif|svg|ico|xml|ttf)$/,
+        loader: 'file-loader?name=img/[hash].[ext]'
       },
       {
         test: /\.json$/, 
