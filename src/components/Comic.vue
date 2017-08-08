@@ -76,6 +76,9 @@
     methods: {
       setTransition: function (inProgress) {
         this.transitionInProgress = inProgress;
+        if (inProgress === false) {
+          this.playCurrentVideo();
+        }
       },
       loadFromRouteValues: function() {
         const stripMap = this.stripsUrlNameMap[this.stripUrlName] || {
