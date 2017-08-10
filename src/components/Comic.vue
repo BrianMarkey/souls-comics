@@ -6,8 +6,8 @@
           <transition-group tag="ul"
                             v-bind:name="transitionDirection + '-panel'"
                             v-bind:style="{ width : (panelWidth * 2) + 'px' }"
-                            v-on:before-leave="setTransition(true)"
-                            v-on:after-leave="setTransition(false)">
+                            v-on:before-leave="onBeforeLeavePanel"
+                            v-on:after-leave="onAfterLeavePanel">
             <li v-for="panel in panels" v-show="panel.isCurrentPanel" v-bind:key="panel.key">
               <div class="currentListItem">
                 <video v-if="panel.type === 'video'"
@@ -94,6 +94,7 @@
         transitionInProgress: false
       };
     },
+    // Implementation of the Vue.js beforeMount hook.
     beforeMount() {
       const maps = this.panelsService.createMaps(this.strips);
       this.panelsMap = maps.panelsMap;
@@ -101,12 +102,17 @@
       this.loadFromRouteValues();
     },
     methods: {
-      setTransition(inProgress) {
-        this.transitionInProgress = inProgress;
-        if (inProgress === false) {
-          this.playCurrentVideo();
-        }
+      // Handle the before leave event of a panel transition.
+      onBeforeLeavePanel() {
+        this.transitionInProgress = true;
       },
+      // Handle the after leave event of a panel transition.
+      onAfterLeavePanel() {
+        this.transitionInProgress = false;
+        this.playCurrentVideo();
+      },
+      // Take the route parameters and load the appropriate panels.
+      // Default to the first panel overall if no route values are present.
       loadFromRouteValues() {
         const stripMap = this.stripsUrlNameMap[this.stripUrlName] || {
           startPanelGlobalIndex: 0,
@@ -117,6 +123,10 @@
         const nextGlobalPanelIndex = stripMap.startPanelGlobalIndex + panelIndex;
         this.setCurrentPanel(nextGlobalPanelIndex, stripMap.stripIndex, panelIndex);
       },
+      // Set the currently viewed panel.
+      // nextGlobalPanelIndex: The global index of the panel to set as current.
+      // stripIndex: The index of the of the strip containing the panel to set as current.
+      // panelIndex: The index of the panel in its parent strip.
       setCurrentPanel(nextGlobalPanelIndex,
                       stripIndex,
                       panelIndex) {
@@ -133,12 +143,15 @@
         this.currentPanelIndexInStrip = panelIndex;
         this.currentGlobalPanelIndex = nextGlobalPanelIndex;
       },
+      // Start playing the video for the current panel.
       playCurrentVideo() {
         var currentVideo = this.$el.querySelector('.panels-container .active');
         if (currentVideo) {
           currentVideo.play();
         }
       },
+      // NOT COMPLETE. Make the video for the current panel
+      // full screen if the device supports it.
       requestFullScreen() {
         var firstVid = document.querySelector('video');
         console.log(firstVid.requestFullscreen);
@@ -149,20 +162,24 @@
       }
     },
     computed: {
+      // Is the current panel the first overall?
       currentPanelIsFirst() {
         return this.panelsService.panelIsFirst(this.currentStripIndex, this.currentPanelIndexInStrip);
       },
+      // Is the current panel the last overall?
       currentPanelIsLast() {
         return this.panelsService.panelIsLast(this.currentStripIndex,
                                               this.currentPanelIndexInStrip,
                                               this.strips);
       },
+      // The url to the next panel if there is one.
       nextPanelPath() {
         return this.panelsService.getNextPanelPath(this.currentPanelIsLast,
                                                    this.currentStripIndex,
                                                    this.currentPanelIndexInStrip,
                                                    this.strips);
       },
+      // The url to the previous panel if there is one.
       previousPanelPath() {
         return this.panelsService.getPreviousPanelPath(this.currentPanelIsFirst,
                                                        this.currentStripIndex,
@@ -170,6 +187,7 @@
                                                        this.strips);
       },
     },
+    // Reload the state when the route values change.
     watch: {
       '$route.params'(params) {
       this.loadFromRouteValues();
