@@ -182,14 +182,13 @@
     }
   }
   .panel-video {
-    width: 100%;
     max-width: 720px;
   }
 
   .disabled a {
     pointer-events: none;
   }
-  .outer-panels-container{
+  .outer-panels-container {
     background-image: url("~static/panel-bg-texture.png");
     border: 47px solid;
     border-image: url(~static/bg-border.png) 47 47 47 47 repeat;
@@ -198,9 +197,6 @@
   .panels-container {
     border: 4px solid #4f3c3e;
     overflow: hidden;
-    display: inline-block;
-  }
-  .slider-control {
     display: inline-block;
   }
   ul {
