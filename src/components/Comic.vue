@@ -213,7 +213,7 @@
     }
   }
   body {
-    background: ##a1716d;
+    background: #a1716d;
     background-image: url("~static/cherrybg-1.png"), 
                       url("~static/cherrybg-2.png");
     background-repeat: repeat-x, repeat;
