@@ -264,6 +264,7 @@
     font-size: 80px;
     text-shadow: 3px 3px #7d634b;
     font-family: "dks";
+    margin: 0px;
   }
   ::-webkit-media-controls {
     display:none !important;
