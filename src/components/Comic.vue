@@ -46,24 +46,51 @@
   export default {
     name: 'comic',
     props: [
+      // The data about the comic strips.
       'strips',
+      // The name of the referenced strip from the url.
       'stripUrlName',
+      // The 1-based number of the panel in the strip from the url.
       'panelNumber',
+      // The service containg logic related to navigating
+      // panels.
       'panelsService'
     ],
     data() {
       return {
-        // The index of the current list item in the
-        // current area's list of items.
+        // The 0-based index of the current comic strip.
         currentStripIndex: 0,
+        // The 0-based index of the current panel within the
+        // currnent commic strip.
         currentPanelIndexInStrip: 0,
+        // The 0-based index of the current panel in the list
+        // of all available panels in all available comic strips.
         currentGlobalPanelIndex: 0,
+        // An array containing the currently loaded panels.
         panels: [],
+        // The global panel width. All panels must be at least this
+        // wide in order for the slider to work properly.
         panelWidth: 720,
+        // The number of panels to load before and after the current
+        // panel as a buffer to prevent delays in navigaion.
         panelBufferSize: 1,
+        // An index of all of the panels in all of the
+        // comic strips.
         panelsMap: [],
+        // An object containing all of the comic strips with the url name
+        // as the property key and and the strip index, and global index
+        // of the first panel as the object associated with the url name.
+        // {
+        //    urlName: 'name',
+        //    stripIndex: 0,
+        //    startPanelGlobalIndex: 0
+        //  }
         stripsUrlNameMap: { },
+        // The directon in which the slideshow is moving.
+        // Possible values 'next', 'previous.
         transitionDirection: 'next',
+        // Indicates if a transition between panels is currently
+        // in progress.
         transitionInProgress: false
       };
     },
