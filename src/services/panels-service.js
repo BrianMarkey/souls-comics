@@ -6,7 +6,7 @@ export default {
   /// the panel with the matching index, and
   /// the buffering panels.
   /// todo: possibly add parameter validation.
-  getPanelsToLoad: function(
+  getPanelsToLoad(
     panelsMap,
     globalPanelIndex,
     stripsData,
@@ -52,7 +52,7 @@ export default {
   },
   /// Convert the one-based, string panel number route value
   /// to a zero-based integer panel index.
-  getPanelIndexFromPanelNumber: function(strip, panelNumber) {
+  getPanelIndexFromPanelNumber(strip, panelNumber) {
     if (!utilsService.isInt(panelNumber)) {
       return 0;
     }
@@ -66,7 +66,7 @@ export default {
   },
   /// Create an array which maps panels to their strip
   /// and a hash set object which maps url names to strips.
-  createMaps: function (strips) {
+  createMaps(strips) {
     const panelsMap = [];
     const urlNamesMap = {};
     var panelLoopIndex = 0;
@@ -86,7 +86,7 @@ export default {
   },
   /// Get the url path to the next panel in the 
   /// list, if there is one. Returns an empty string if there is not.
-  getNextPanelPath: function(
+  getNextPanelPath(
     currentPanelIsLast,
     currentStripIndex,
     currentPanelIndexInStrip,
@@ -103,7 +103,7 @@ export default {
   },
   /// Get the url path to the previous panel in the 
   /// list, if there is one. Returns an empty string if there is not.
-  getPreviousPanelPath: function(
+  getPreviousPanelPath(
     currentPanelIsFirst,
     currentStripIndex,
     currentPanelIndexInStrip,

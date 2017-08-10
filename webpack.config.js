@@ -31,6 +31,7 @@ module.exports = {
         loader: 'vue-loader',
         options: {
           loaders: {
+            js: 'babel-loader'
           }
           // other vue-loader options go here
         }

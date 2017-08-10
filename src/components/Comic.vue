@@ -51,7 +51,7 @@
       'panelNumber',
       'panelsService'
     ],
-    data: function () {
+    data() {
       return {
         // The index of the current list item in the
         // current area's list of items.
@@ -67,20 +67,20 @@
         transitionInProgress: false
       };
     },
-    beforeMount: function () {
+    beforeMount() {
       const maps = this.panelsService.createMaps(this.strips);
       this.panelsMap = maps.panelsMap;
       this.stripsUrlNameMap = maps.urlNamesMap;
       this.loadFromRouteValues();
     },
     methods: {
-      setTransition: function (inProgress) {
+      setTransition(inProgress) {
         this.transitionInProgress = inProgress;
         if (inProgress === false) {
           this.playCurrentVideo();
         }
       },
-      loadFromRouteValues: function() {
+      loadFromRouteValues() {
         const stripMap = this.stripsUrlNameMap[this.stripUrlName] || {
           startPanelGlobalIndex: 0,
           stripIndex : 0
@@ -90,9 +90,9 @@
         const nextGlobalPanelIndex = stripMap.startPanelGlobalIndex + panelIndex;
         this.setCurrentPanel(nextGlobalPanelIndex, stripMap.stripIndex, panelIndex);
       },
-      setCurrentPanel: function (nextGlobalPanelIndex,
-                                 stripIndex,
-                                 panelIndex) {
+      setCurrentPanel(nextGlobalPanelIndex,
+                      stripIndex,
+                      panelIndex) {
         var panelsToLoad = this.panelsService.getPanelsToLoad(this.panelsMap,
                                                               nextGlobalPanelIndex,
                                                               this.strips,
@@ -106,13 +106,13 @@
         this.currentPanelIndexInStrip = panelIndex;
         this.currentGlobalPanelIndex = nextGlobalPanelIndex;
       },
-      playCurrentVideo: function () {
+      playCurrentVideo() {
         var currentVideo = this.$el.querySelector('.panels-container .active');
         if (currentVideo) {
           currentVideo.play();
         }
       },
-      requestFullScreen: function () {
+      requestFullScreen() {
         var firstVid = document.querySelector('video');
         console.log(firstVid.requestFullscreen);
         console.log(firstVid.msRequestFullscreen);
@@ -122,21 +122,21 @@
       }
     },
     computed: {
-      currentPanelIsFirst: function () {
+      currentPanelIsFirst() {
         return this.panelsService.panelIsFirst(this.currentStripIndex, this.currentPanelIndexInStrip);
       },
-      currentPanelIsLast: function () {
+      currentPanelIsLast() {
         return this.panelsService.panelIsLast(this.currentStripIndex,
                                               this.currentPanelIndexInStrip,
                                               this.strips);
       },
-      nextPanelPath: function () {
+      nextPanelPath() {
         return this.panelsService.getNextPanelPath(this.currentPanelIsLast,
                                                    this.currentStripIndex,
                                                    this.currentPanelIndexInStrip,
                                                    this.strips);
       },
-      previousPanelPath: function () {
+      previousPanelPath() {
         return this.panelsService.getPreviousPanelPath(this.currentPanelIsFirst,
                                                        this.currentStripIndex,
                                                        this.currentPanelIndexInStrip,
@@ -144,7 +144,7 @@
       },
     },
     watch: {
-    '$route.params': function (params) {
+      '$route.params'(params) {
       this.loadFromRouteValues();
     }
   },

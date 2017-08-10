@@ -1,7 +1,7 @@
 export default {
   /// Specifies if a value is an integer
   /// including string representations of integers.
-  isInt: function(value) {
+  isInt(value) {
     if (isNaN(value)) {
       return false;
     }
