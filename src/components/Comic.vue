@@ -28,13 +28,11 @@
             <router-link v-bind:to="previousPanelPath"
                         v-bind:style="{ visibility: currentPanelIsFirst ? 'hidden' : 'inherit' }">
               <span>Previous</span>
-              <img src="~static/sword.png"/>
             </router-link>
             <a v-on:click="playCurrentVideo()">Play</a>
             <router-link v-bind:to="nextPanelPath"
                         v-bind:style="{ visibility: currentPanelIsLast ? 'hidden' : 'inherit' }">
               <span>Next</span>
-              <img class="flipped" src="~static/sword.png"/>
             </router-link>
           </div>
         </div>
@@ -212,8 +210,11 @@
     font-family: "dks";
     font-size: 2em;
     cursor: pointer;
-    &:visited {
+    &:visited, &:link {
       color: #c7c7c7;
+    }
+    &:hover, &active {
+      color: #8c625f;
     }
   }
 
@@ -221,9 +222,10 @@
     display: flex;
     justify-content: space-around;
     a {
-      span {
-        display: block;
-      }
+        width: 33%;
+        span {
+          display: block;
+        }
     }
   }
   .panel-video {
