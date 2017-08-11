@@ -27,9 +27,13 @@
           <div class="controls" v-bind:class="transitionInProgress ? 'disabled' : ''">
             <router-link v-bind:to="previousPanelPath"
                         v-bind:style="{ visibility: currentPanelIsFirst ? 'hidden' : 'inherit' }">
-              <span>Previous</span>
+              <span>Prev</span>
             </router-link>
-            <a v-on:click="playCurrentVideo()">Play</a>
+            <div class="buttons">
+              <button class="play" v-on:click="playCurrentVideo()"></button>
+              <button class="pause"></button>
+              <button class="replay"></button>
+            </div>
             <router-link v-bind:to="nextPanelPath"
                         v-bind:style="{ visibility: currentPanelIsLast ? 'hidden' : 'inherit' }">
               <span>Next</span>
@@ -198,14 +202,6 @@
   #app {
     text-align: center;
   }
-  .flipped {
-    -moz-transform: scaleX(-1);
-    -o-transform: scaleX(-1);
-    -webkit-transform: scaleX(-1);
-    transform: scaleX(-1);
-    filter: FlipH;
-    -ms-filter: "FlipH";
-  }
   a {
     font-family: "dks";
     font-size: 2em;
@@ -217,12 +213,41 @@
       color: #8c625f;
     }
   }
-
+  button {
+    width: 50px;
+    height: 62px;
+    background: url('~static/video-controls.png') no-repeat;
+    background-size: 150px 124px;
+    background-color: transparent;
+    border: none;
+    margin: 0px 30px;
+    cursor: pointer;
+    &.play {
+      background-position: 0px 0px;
+      &:hover {
+        background-position-y: -62px;
+      }
+    }
+    &.pause {
+      background-position: -50px 0px;
+      &:hover {
+        background-position-y: -62px;
+      }
+    }
+    &.replay {
+      background-position: -100px 0px;
+      &:hover {
+        background-position-y: -62px;
+      }
+    }
+  }
   .controls {
     display: flex;
     justify-content: space-around;
     a {
-        width: 33%;
+        margin: auto;
+        font-size: 48px;
+        width: 25%;
         span {
           display: block;
         }
@@ -271,7 +296,7 @@
     margin: 0px;
   }
   ::-webkit-media-controls {
-    display:none !important;
+    /*display:none !important;*/
   }
   @font-face {
     font-family: "dks";
