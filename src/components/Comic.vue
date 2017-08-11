@@ -17,7 +17,10 @@
                       class="panel-video"
                       ref="vid"
                       v-bind:key="panel.key"
-                      v-bind:class="panel.isCurrentPanel ? 'active' : ''">
+                      v-bind:class="panel.isCurrentPanel ? 'active' : ''"
+                      v-on:play="onVideoPlay"
+                      v-on:playend="onVideoPlayEnd"
+                      v-on:pause="onVideoPlayEnd">
                       <source v-bind:src="panel.source" type="video/webm">
                 </video>
                 <img v-if="panel.type === 'image'" v-bind:src="panel.source" />
@@ -30,9 +33,8 @@
               <span>Prev</span>
             </router-link>
             <div class="buttons">
-              <button class="play" v-on:click="playCurrentVideo()"></button>
-              <button class="pause"></button>
-              <button class="replay"></button>
+              <button class="play" v-if="!videoIsPlaying" v-on:click="playCurrentVideo()"></button>
+              <button class="pause" v-if="videoIsPlaying" v-on:click="pauseVideo()"></button>
             </div>
             <router-link v-bind:to="nextPanelPath"
                         v-bind:style="{ visibility: currentPanelIsLast ? 'hidden' : 'inherit' }">
@@ -93,7 +95,9 @@
         transitionDirection: 'next',
         // Indicates if a transition between panels is currently
         // in progress.
-        transitionInProgress: false
+        transitionInProgress: false,
+
+        videoIsPlaying: false
       };
     },
     // Implementation of the Vue.js beforeMount hook.
@@ -104,6 +108,15 @@
       this.loadFromRouteValues();
     },
     methods: {
+      onVideoPlay() {
+        this.videoIsPlaying = true;
+      },
+      onVideoPlayEnd() {
+        this.videoIsPlaying = false;
+      },
+      onVideoPaused() {
+        this.videoIsPlaying = false;
+      },
       // Handle the before leave event of a panel transition.
       onBeforeLeavePanel() {
         this.transitionInProgress = true;
@@ -150,6 +163,13 @@
         var currentVideo = this.$el.querySelector('.panels-container .active');
         if (currentVideo) {
           currentVideo.play();
+        }
+      },
+      // Start playing the video for the current panel.
+      pauseVideo() {
+        var currentVideo = this.$el.querySelector('.panels-container .active');
+        if (currentVideo) {
+          currentVideo.pause();
         }
       },
       // NOT COMPLETE. Make the video for the current panel
