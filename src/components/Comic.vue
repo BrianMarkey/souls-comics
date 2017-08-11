@@ -234,15 +234,17 @@
     pointer-events: none;
   }
   .outer-panels-container {
-    background-image: url("~static/panel-bg-texture.png");
-    border: 47px solid;
-    border-image: url(~static/bg-border.png) 47 47 47 47 repeat;
+    border-top: 47px solid;
+    border-bottom: 47px solid;
+    border-left: 64px solid;
+    border-right: 64px solid;
+    border-image: url(~static/bg-border.png) 47 64 47 64 repeat;
     display: inline-block;
   }
   .panels-container {
-    border: 4px solid #4f3c3e;
+    border: 4px solid #352c2d;
     overflow: hidden;
-    display: inline-block;
+    background-image: url(~static/panel-bg-texture.png);
   }
   ul {
     padding: 0px;
