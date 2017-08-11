@@ -10,8 +10,7 @@
                             v-on:after-leave="onAfterLeavePanel">
             <li v-for="panel in panels" v-show="panel.isCurrentPanel" v-bind:key="panel.key">
               <div class="currentListItem">
-                <video v-if="panel.type === 'video'"
-                      playsinline="true"
+                <video playsinline="true"
                       webkit-playsinline=""
                       poster=""
                       class="panel-video"
@@ -23,7 +22,6 @@
                       v-on:pause="onVideoPlayEnd">
                       <source v-bind:src="panel.source" type="video/webm">
                 </video>
-                <img v-if="panel.type === 'image'" v-bind:src="panel.source" />
               </div>
             </li>
           </transition-group>
@@ -33,8 +31,8 @@
               <span>Prev</span>
             </router-link>
             <div class="buttons">
-              <button class="play" v-if="!videoIsPlaying" v-on:click="playCurrentVideo()"></button>
-              <button class="pause" v-if="videoIsPlaying" v-on:click="pauseVideo()"></button>
+              <button v-bind:class="controlButtonMode"
+                      v-on:click="onControlButtonClick"></button>
             </div>
             <router-link v-bind:to="nextPanelPath"
                         v-bind:style="{ visibility: currentPanelIsLast ? 'hidden' : 'inherit' }">
@@ -96,7 +94,7 @@
         // Indicates if a transition between panels is currently
         // in progress.
         transitionInProgress: false,
-
+        // The current video is currently playing.
         videoIsPlaying: false
       };
     },
@@ -108,6 +106,14 @@
       this.loadFromRouteValues();
     },
     methods: {
+      onControlButtonClick() {
+        if(this.controlButtonMode === 'pause') {
+          this.pauseVideo();
+        }
+        if(this.controlButtonMode === 'play') {
+          this.playCurrentVideo();
+        }
+      },
       onVideoPlay() {
         this.videoIsPlaying = true;
       },
@@ -124,7 +130,9 @@
       // Handle the after leave event of a panel transition.
       onAfterLeavePanel() {
         this.transitionInProgress = false;
-        this.playCurrentVideo();
+        if (this.currentPanelIsPlayable) {
+          this.playCurrentVideo();
+        }
       },
       // Take the route parameters and load the appropriate panels.
       // Default to the first panel overall if no route values are present.
@@ -184,6 +192,21 @@
       }
     },
     computed: {
+      controlButtonMode() {
+        if (this.videoIsPlaying) {
+          return 'pause';
+        }
+        if (this.currentPanelIsPlayable) {
+          return 'play';
+        }
+        return 'none';
+      },
+      // todo move this to service
+      currentPanelIsPlayable() {
+        const currentPanel = this.strips[this.currentStripIndex].panels[this.currentPanelIndexInStrip];
+
+        return currentPanel.type === 'video';
+      },
       // Is the current panel the first overall?
       currentPanelIsFirst() {
         return this.panelsService.panelIsFirst(this.currentStripIndex, this.currentPanelIndexInStrip);
@@ -254,11 +277,8 @@
         background-position-y: -62px;
       }
     }
-    &.replay {
-      background-position: -100px 0px;
-      &:hover {
-        background-position-y: -62px;
-      }
+    &.none {
+      visibility: hidden;
     }
   }
   .controls {
