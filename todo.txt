@@ -1,3 +1,5 @@
+Edge and IE Support
+Apple testing?
 Switch to js animations
 Component Tests
 Design mobile nav
