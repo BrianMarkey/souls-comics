@@ -21,7 +21,7 @@ module.exports = {
     // in the generated index.html.
     new FaviconsWebpackPlugin({
       logo: './static/favicon.png',
-      prefix: 'img/icons-[hash]/'
+      prefix: '~img/icons-[hash]/'
     })
   ],
   module: {

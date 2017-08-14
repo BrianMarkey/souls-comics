@@ -20,7 +20,7 @@
                       v-on:play="onVideoPlay"
                       v-on:playend="onVideoPlayEnd"
                       v-on:pause="onVideoPlayEnd">
-                      <source v-bind:src="panel.source" type="video/webm">
+                      <source v-bind:src="panel.source" type="video/mp4">
                 </video>
               </div>
             </li>
