@@ -10,22 +10,29 @@
                             v-on:after-leave="onAfterLeavePanel">
             <li v-for="panel in panels" v-show="panel.isCurrentPanel" v-bind:key="panel.key">
               <div class="currentListItem">
-                <video playsinline="true"
-                      webkit-playsinline=""
-                      poster=""
+                <video preload="auto"
+                      playsinline
+                      webkit-playsinline
+                      v-bind:poster="panel.type === 'video' ? '' : panel.source"
                       class="panel-video"
                       ref="vid"
-                      v-bind:key="panel.key"
                       v-bind:class="panel.isCurrentPanel ? 'active' : ''"
                       v-on:play="onVideoPlay"
                       v-on:playend="onVideoPlayEnd"
-                      v-on:pause="onVideoPlayEnd">
-                      <source v-bind:src="panel.source" type="video/mp4">
+                      v-on:pause="onVideoPlayEnd"
+                      v-bind:key="panel.key + '-vid'">
+
+                      <source v-if="panel.type === 'video'" 
+                              v-bind:src="panel.source"
+                              type="video/mp4">
+                      <source v-if="panel.type === 'intro'"
+                              src="https://d3navbyx1jqffw.cloudfront.net/intro-placeholder-v3.mp4"
+                              type="video/mp4">
                 </video>
               </div>
             </li>
           </transition-group>
-          <div class="controls" v-bind:class="transitionInProgress ? 'disabled' : ''">
+          <div class="controls" v-bind:class="transitionInProgress || videoIsPlaying ? 'disabled' : ''">
             <router-link v-bind:to="previousPanelPath"
                         v-bind:style="{ visibility: currentPanelIsFirst ? 'hidden' : 'inherit' }">
               <span>Prev</span>

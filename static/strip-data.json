@@ -1,30 +1,30 @@
 {
   "strips": [
     {
-      "name": "Test strip one.",
-      "urlName": "test-strip-one",
+      "name": "Pigward Attacks",
+      "urlName": "pigward-attacks",
       "panels": [
         {
-          "type": "image",
-          "source": "https://giant.gfycat.com/FlimsySpottedAmericancrocodile.webm"
+          "type": "intro",
+          "source": "https://d3navbyx1jqffw.cloudfront.net/pigward-attacks-intro.png"
         },
         {
           "type": "video",
-          "source": "https://thumbs.gfycat.com/PopularPaltryAidi-mobile.mp4"
+          "source": "http://d3navbyx1jqffw.cloudfront.net/pigward-attacks-panel-1.mp4"
         }
       ]
     },
     {
-      "name": "Test strip two.",
-      "urlName": "test-strip-two",
+      "name": "Reverse-A-Roo",
+      "urlName": "reverse-a-roo",
       "panels": [
         {
-          "type": "video",
-          "source": "https://giant.gfycat.com/PopularPaltryAidi.webm"
+          "type": "intro",
+          "source": "https://d3navbyx1jqffw.cloudfront.net/reverse-a-roo-intro.png"
         },
         {
           "type": "video",
-          "source": "https://giant.gfycat.com/FlimsySpottedAmericancrocodile.webm"
+          "source": "http://d3navbyx1jqffw.cloudfront.net/reverse-a-roo-panel-1.mp4"
         }
       ]
     }
