@@ -1,6 +1,13 @@
 <template>
     <div id="app">
       <h1>SOULS COMICS</h1>
+      <div class="twitter-container"
+          v-bind:class="twitterHasLoaded ? 'loaded' : ''">
+        <a href="https://twitter.com/soulscomics" 
+          class="twitter-follow-button"
+          data-show-count="false"
+          data-show-screen-name="false">Follow</a>
+      </div>
       <div class="outer-panels-container">
         <div class="panels-container" v-bind:style="{ width: panelWidth + 'px'}">
           <transition-group tag="ul"
@@ -101,11 +108,18 @@
         // in progress.
         transitionInProgress: false,
         // The current video is currently playing.
-        videoIsPlaying: false
+        videoIsPlaying: false,
+        // Indicates that the twitter widgets are ready to show.
+        twitterHasLoaded: false
       };
     },
     // Implementation of the Vue.js beforeMount hook.
     beforeMount() {
+      twttr.events.bind(
+        'loaded',
+        (event) => {
+          this.twitterHasLoaded = true;
+        });
       const maps = this.panelsService.createMaps(this.strips);
       this.panelsMap = maps.panelsMap;
       this.stripsUrlNameMap = maps.urlNamesMap;
@@ -340,6 +354,16 @@
     text-shadow: 3px 3px #7d634b;
     font-family: "dks";
     margin: 0px;
+  }
+  .twitter-container {
+    margin-left: 750px;
+    margin-top: -24px;
+    height: 24px;
+    opacity: 0;
+    &.loaded {
+      transition: opacity 1s;
+      opacity: 1;
+    }
   }
   ::-webkit-media-controls {
     /*display:none !important;*/
