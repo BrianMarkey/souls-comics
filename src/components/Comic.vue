@@ -19,14 +19,13 @@
                       v-bind:class="panel.isCurrentPanel ? 'active' : ''"
                       v-on:play="onVideoPlay"
                       v-on:playend="onVideoPlayEnd"
-                      v-on:pause="onVideoPlayEnd"
-                      v-bind:key="panel.key + '-vid'">
+                      v-on:pause="onVideoPlayEnd">
 
                       <source v-if="panel.type === 'video'" 
                               v-bind:src="panel.source"
                               type="video/mp4">
                       <source v-if="panel.type === 'intro'"
-                              src="https://d3navbyx1jqffw.cloudfront.net/intro-placeholder-v3.mp4"
+                              src=""
                               type="video/mp4">
                 </video>
               </div>
