@@ -27,6 +27,20 @@
           "source": "http://d3navbyx1jqffw.cloudfront.net/reverse-a-roo-panel-1.mp4"
         }
       ]
+    },
+    {
+      "name": "Smoughtosis",
+      "urlName": "smoughtosis",
+      "panels": [
+        {
+          "type": "intro",
+          "source": "https://d3navbyx1jqffw.cloudfront.net/smoughtosis-intro-v2.png"
+        },
+        {
+          "type": "video",
+          "source": "http://d3navbyx1jqffw.cloudfront.net/smoughtosis-panel-1.mp4"
+        }
+      ]
     }
   ]
 }

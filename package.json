@@ -1,6 +1,6 @@
 {
-  "name": "vue-simple",
-  "description": "A Vue.js project",
+  "name": "souls-comics",
+  "description": "A website for displaying video comics based on the Souls series.",
   "version": "1.0.0",
   "author": "brian.g.markey@gmail.com",
   "private": true,
