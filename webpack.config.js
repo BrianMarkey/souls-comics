@@ -8,7 +8,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, './dist'),
     publicPath: '/',
-    filename: 'build.js'
+    filename: 'build-[hash].js'
   },
   plugins: [
     // Generates an index.heml with the output of the

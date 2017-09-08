@@ -7,10 +7,7 @@ import panelsService from 'src/services/panels-service.js';
 
 require.context('static/', true);
 
-const VueTouch = require('vue-touch');
-
 Vue.use(VueRouter);
-Vue.use(VueTouch, { name: 'v-touch' });
 Vue.component('panel', Panel);
 
 function getPropsData(stripUrlName, panelNumber) {
