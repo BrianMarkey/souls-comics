@@ -1,4 +1,4 @@
-# vue-simple
+# Souls Comics
 
 > A website for displaying video comics based on the Souls series.
 
