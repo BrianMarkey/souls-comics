@@ -10,7 +10,7 @@
         },
         {
           "type": "video",
-          "source": "http://d3navbyx1jqffw.cloudfront.net/pigward-attacks-panel-1.mp4"
+          "source": "https://d3navbyx1jqffw.cloudfront.net/pigward-attacks-panel-1.mp4"
         }
       ]
     },
@@ -24,7 +24,7 @@
         },
         {
           "type": "video",
-          "source": "http://d3navbyx1jqffw.cloudfront.net/reverse-a-roo-panel-1.mp4"
+          "source": "https://d3navbyx1jqffw.cloudfront.net/reverse-a-roo-panel-1.mp4"
         }
       ]
     },
@@ -38,7 +38,7 @@
         },
         {
           "type": "video",
-          "source": "http://d3navbyx1jqffw.cloudfront.net/smoughtosis-panel-1.mp4"
+          "source": "https://d3navbyx1jqffw.cloudfront.net/smoughtosis-panel-1.mp4"
         }
       ]
     }
