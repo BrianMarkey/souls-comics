@@ -5,6 +5,7 @@ import Comic from 'src/components/Comic.vue';
 import Panel from 'src/components/Panel.vue';
 import data from 'static/strip-data.json';
 import panelsService from 'src/services/panels-service.js';
+const appVersion = require('root/package.json').version;
 
 require.context('static/', true);
 
@@ -64,5 +65,15 @@ Vue.use(VueAnalytics, {
 
 new Vue({
   el: '#app',
-  router
+  router,
+  beforeCreate: function () {
+    // Provide a way to see the version of the
+    // app currently running in the browser.
+    window.getAppVersion = () => {
+      // Make an eslint exception here so we can
+      // include a console.log
+      // eslint-disable-next-line no-console
+      console.log('Souls Comics version ' + appVersion);
+    };
+  }
 });
