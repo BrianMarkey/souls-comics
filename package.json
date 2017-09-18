@@ -1,7 +1,7 @@
 {
   "name": "souls-comics",
   "description": "A website for displaying video comics based on the Souls series.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "brian.g.markey@gmail.com",
   "private": true,
   "scripts": {
