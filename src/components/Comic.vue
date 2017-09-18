@@ -115,15 +115,23 @@
     },
     // Implementation of the Vue.js beforeMount hook.
     beforeMount() {
-      twttr.events.bind(
-        'loaded',
-        (event) => {
-          this.twitterHasLoaded = true;
-        });
       const maps = this.panelsService.createMaps(this.strips);
       this.panelsMap = maps.panelsMap;
       this.stripsUrlNameMap = maps.urlNamesMap;
       this.loadFromRouteValues();
+    },
+    mounted() {
+      // Once the twitter library has loaded, show set the twitterHasLoaded
+      // to show the follow button.
+      // The twttr object might not be there if
+      // the user has tracking protection enabled.
+      if (typeof(twttr) !== 'undefined') {
+        twttr.events.bind(
+          'loaded',
+          (event) => {
+            this.twitterHasLoaded = true;
+          });
+      }
     },
     methods: {
       onControlButtonClick() {
