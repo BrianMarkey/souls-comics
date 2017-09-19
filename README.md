@@ -1,6 +1,6 @@
 # Souls Comics
 
-> A website for displaying video comics based on the Souls series.
+> A website for displaying video comics based on the Souls series. Currently up at https://www.soulscomics.com.
 
 ## Build Setup
 
