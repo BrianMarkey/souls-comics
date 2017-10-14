@@ -41,6 +41,32 @@
           "source": "https://d3navbyx1jqffw.cloudfront.net/smoughtosis-panel-1.mp4"
         }
       ]
+    },
+    {
+      "name": "Siegward",
+      "urlName": "siegward",
+      "panels": [
+        {
+          "type": "intro",
+          "source": "https://d3navbyx1jqffw.cloudfront.net/siegward-intro.png"
+        },
+        {
+          "type": "video",
+          "source": "https://d3navbyx1jqffw.cloudfront.net/siegward-panel-1.mp4"
+        },
+        {
+          "type": "video",
+          "source": "https://d3navbyx1jqffw.cloudfront.net/siegward-panel-2.mp4"
+        },
+        {
+          "type": "video",
+          "source": "https://d3navbyx1jqffw.cloudfront.net/siegward-panel-3.mp4"
+        },
+        {
+          "type": "video",
+          "source": "https://d3navbyx1jqffw.cloudfront.net/siegward-panel-4.mp4"
+        }
+      ]
     }
   ]
 }
